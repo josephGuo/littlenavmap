@@ -307,6 +307,7 @@ public:
 
   /* If enabled an aircraft can be moved around the map using Ctr+Shift+Movement, Ctr+Shift+Whell changes altitude */
   bool isDebugMovingAircraft() const;
+  bool isDebugMapPaint() const;
 
 signals:
   /* Emitted when window is shown the first time */
@@ -633,8 +634,6 @@ private:
   WeatherContextHandler *weatherContextHandler;
   QAction *emptyAirportSeparator = nullptr;
 
-  QList<QToolBar *> toolbars;
-
   /* Show database dialog after cleanup of obsolete databases if true */
   bool databasesErased = false;
   QSize defaultToolbarIconSize;
@@ -657,8 +656,12 @@ private:
           *debugActionReloadPlan = nullptr, *debugActionPlanEdit = nullptr,
           *debugActionPerfEdit = nullptr, *debugActionDumpLayers = nullptr, *debugActionResetUpdate = nullptr,
           *debugActionThrowException = nullptr, *debugActionSegfault = nullptr,
-          *debugActionAssert = nullptr, *debugActionMoveAircraft = nullptr, *debugActionExportPlans = nullptr;
+          *debugActionAssert = nullptr, *debugActionMoveAircraft = nullptr, *debugActionExportPlans = nullptr,
+          *debugActionMapPaint = nullptr;
 
+  /* Widgets that have to adapted on font change */
+  QList<QTabWidget *> tabbarsToResize;
+  QList<QWidget *> widgetsToResize;
 };
 
 #endif // LITTLENAVMAP_MAINWINDOW_H

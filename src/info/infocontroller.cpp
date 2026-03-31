@@ -189,18 +189,18 @@ InfoController::InfoController(QWidget *parent)
 
   // ==================================================================================
   // Create a configuration push button and place it into the aircraft progress info text browser
-  QPushButton *button = new QPushButton(QIcon(":/littlenavmap/resources/icons/settingsroute.svg"),
-                                        QStringLiteral(), ui->textBrowserAircraftProgressInfo->viewport());
-  button->setToolTip(tr("Select the fields to show in the aircraft progress tab."));
-  button->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+  pushButtonConfig = new QPushButton(QIcon(":/littlenavmap/resources/icons/settingsroute.svg"),
+                                     QStringLiteral(), ui->textBrowserAircraftProgressInfo->viewport());
+  pushButtonConfig->setToolTip(tr("Select the fields to show in the aircraft progress tab."));
+  pushButtonConfig->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 
   // Create a layout to position the button automatically
   QVBoxLayout *layout = new QVBoxLayout(ui->textBrowserAircraftProgressInfo->viewport());
   layout->setContentsMargins(5, 5, 5, 5);
   layout->setSpacing(0);
-  layout->addWidget(button, 0, Qt::AlignRight); // Add button to the right
+  layout->addWidget(pushButtonConfig, 0, Qt::AlignRight); // Add button to the right
   layout->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding)); // Move button up with spacer
-  connect(button, &QPushButton::clicked, this, &InfoController::progressConfigurationClicked);
+  connect(pushButtonConfig, &QPushButton::clicked, this, &InfoController::progressConfigurationClicked);
 
   // Create context menu connections for progress text browser ===========================
   connect(ui->textBrowserAircraftProgressInfo, &QTextBrowser::customContextMenuRequested, this, &InfoController::showProgressContextMenu);
@@ -262,6 +262,7 @@ InfoController::~InfoController()
   ATOOLS_DELETE_LOG(lastSimData);
   ATOOLS_DELETE_LOG(currentSearchResult);
   ATOOLS_DELETE_LOG(savedSearchResult);
+  ATOOLS_DELETE_LOG(pushButtonConfig);
 }
 
 QString InfoController::getConnectionTypeText()
@@ -550,34 +551,34 @@ void InfoController::saveState() const
   // Store currently shown map objects in a string list containing id and type
   map::MapRefList refs;
   for(const map::MapAirport& airport  : std::as_const(currentSearchResult->airports))
-    refs.append({airport.id, map::AIRPORT});
+    refs.append(map::MapRef(airport.id, map::AIRPORT));
 
   for(const map::MapAirportMsa& msa  : std::as_const(currentSearchResult->airportMsa))
-    refs.append({msa.id, map::AIRPORT_MSA});
+    refs.append(map::MapRef(msa.id, map::AIRPORT_MSA));
 
   for(const map::MapVor& vor : std::as_const(currentSearchResult->vors))
-    refs.append({vor.id, map::VOR});
+    refs.append(map::MapRef(vor.id, map::VOR));
 
   for(const map::MapNdb& ndb : std::as_const(currentSearchResult->ndbs))
-    refs.append({ndb.id, map::NDB});
+    refs.append(map::MapRef(ndb.id, map::NDB));
 
   for(const map::MapWaypoint& waypoint : std::as_const(currentSearchResult->waypoints))
-    refs.append({waypoint.id, map::WAYPOINT});
+    refs.append(map::MapRef(waypoint.id, map::WAYPOINT));
 
   for(const map::MapIls& ils : std::as_const(currentSearchResult->ils))
-    refs.append({ils.id, map::ILS});
+    refs.append(map::MapRef(ils.id, map::ILS));
 
   for(const map::MapHolding& holding : std::as_const(currentSearchResult->holdings))
-    refs.append({holding.id, map::HOLDING});
+    refs.append(map::MapRef(holding.id, map::HOLDING));
 
   for(const map::MapUserpoint& userpoint: std::as_const(currentSearchResult->userpoints))
-    refs.append({userpoint.id, map::USERPOINT});
+    refs.append(map::MapRef(userpoint.id, map::USERPOINT));
 
   for(const map::MapLogbookEntry& logEntry : std::as_const(currentSearchResult->logbookEntries))
-    refs.append({logEntry.id, map::LOGBOOK});
+    refs.append(map::MapRef(logEntry.id, map::LOGBOOK));
 
   for(const map::MapAirway& airway : std::as_const(currentSearchResult->airways))
-    refs.append({airway.id, map::AIRWAY});
+    refs.append(map::MapRef(airway.id, map::AIRWAY));
 
   // Save list =====================================================
   atools::settings::Settings& settings = atools::settings::Settings::instance();
@@ -1521,8 +1522,18 @@ void InfoController::optionsChanged()
   linkTooltipHandler->setShowTooltips(OptionData::instance().getFlags().testFlag(opts::ENABLE_TOOLTIPS_LINK));
 }
 
-void InfoController::fontChanged(const QFont&)
+void InfoController::fontChanged(const QFont& font)
 {
+  qDebug() << Q_FUNC_INFO;
+
+  const QSize minSize = NavApp::getMinButtonSize();
+  tabHandlerInfo->fontChanged(font, minSize);
+  tabHandlerAirportInfo->fontChanged(font, minSize);
+  tabHandlerAircraft->fontChanged(font, minSize);
+
+  pushButtonConfig->setMinimumSize(minSize);
+  pushButtonConfig->setIconSize(minSize * 0.8);
+
   optionsChanged();
 }
 
