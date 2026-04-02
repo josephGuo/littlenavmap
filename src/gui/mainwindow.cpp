@@ -266,6 +266,7 @@ MainWindow::MainWindow()
 
     // Update pointer characters on font change
     connect(NavApp::applicationInstance(), &Application::fontChanged, TextPointer::initPointerCharacters);
+    connect(NavApp::applicationInstance(), &Application::fontChanged, TextPointer::printDebug);
 
     routeExport = new RouteExport(this);
     simbriefHandler = new SimBriefHandler(this);
@@ -568,12 +569,34 @@ MainWindow::MainWindow()
     connect(debugActionMapPaint, &QAction::toggled, this, &MainWindow::updateActionStates);
   }
 
+  // Set font for user interface ====================================================
+  // Signal font change is sent again manually later in mainWindowShown()
+  QString fontString = settings.valueStr(lnm::OPTIONS_DIALOG_GUI_FONT, QStringLiteral());
+  QFont font;
+  if(!fontString.isEmpty())
+  {
+    font.fromString(fontString);
+
+    if(font != QFontDatabase::systemFont(QFontDatabase::GeneralFont))
+    {
+      QApplication::setFont(font);
+      fontChangedFromDefault = true;
+    }
+    // else use default if it is already the system font
+  }
+  // else use default if not set
+
+  // Update manually since no fontChanged is sent on startup for unchanged application font
+  TextPointer::initPointerCharacters(QApplication::font());
+  TextPointer::printDebug();
+
   qDebug() << Q_FUNC_INFO << "Exit";
 }
 
 MainWindow::~MainWindow()
 {
   qDebug() << Q_FUNC_INFO;
+  delete ui;
 }
 
 void MainWindow::deInit()
@@ -1897,7 +1920,7 @@ void MainWindow::showGlobeInstallation()
   if(msg.isEmpty())
     desktopServices->openFile(globeDir);
   else
-    atools::gui::Dialog::warning(this, msg % tr("\n\nSet the path to the offline elevation data in options on page \"Cache and Files\""));
+    atools::gui::Dialog::warning(this, msg % tr("\n\nSet the path to the offline elevation data in options on page \"Elevation Data\""));
 }
 
 const ElevationModel *MainWindow::getElevationModel()
@@ -3339,11 +3362,9 @@ void MainWindow::mainWindowShown()
 {
   qDebug() << Q_FUNC_INFO << "enter";
 
-  // Need to set the font again to pass it on to all menus since these are constructed later
-  QApplication::setFont(QApplication::font());
-  // atools::gui::updateAllFonts(ui->menuBar, QApplication::font(), atools::gui::WidgetZoomHandler::getRegisteredWidgets());
-  // Emit program wide font change to update all widgets
-  emit Application::applicationInstance()->fontChanged(QGuiApplication::font());
+  // Emit program wide font change signal again to update all widgets
+  if(fontChangedFromDefault)
+    emit Application::applicationInstance()->fontChanged(QGuiApplication::font());
 
   // Set empty to disable arbitrary messages from map view changes
   statusBar->setStatusMessage(QStringLiteral());
@@ -4302,33 +4323,29 @@ void MainWindow::optionsChanged()
 
 void MainWindow::fontChanged(const QFont& font)
 {
-  qDebug() << Q_FUNC_INFO;
+  qDebug() << Q_FUNC_INFO << font;
 
-  // atools::gui::updateAllFonts(font, atools::gui::WidgetZoomHandler::getRegisteredWidgets());
-  atools::gui::updateAllFonts(ui->menuBar, font, atools::gui::WidgetZoomHandler::getRegisteredWidgets());
-  atools::gui::updateAllFonts(ui->statusBar, font, atools::gui::WidgetZoomHandler::getRegisteredWidgets());
-  atools::gui::updateAllFonts(ui->toolBarMain, font, atools::gui::WidgetZoomHandler::getRegisteredWidgets());
-
-  for(QDockWidget *dock : dockHandler->getDockWidgets())
-    atools::gui::updateAllFonts(dock, font, atools::gui::WidgetZoomHandler::getRegisteredWidgets());
-
-  // Update the map widget title bar
-  DockWidgetHandler::fontChangedWidget(ui->dockWidgetMap, font);
-
-  // Update tab widget height
-  for(QTabWidget *widget : std::as_const(tabbarsToResize))
-    atools::gui::changeTabBarSize(widget);
-
-  const QSize minSize = NavApp::getMinButtonSize();
-  for(QWidget *widget : std::as_const(widgetsToResize))
+  // Only apply this when changing from options - not on startup
+  if(!Application::isStartingUp())
   {
-    widget->setMinimumSize(minSize);
-    QAbstractButton *button = dynamic_cast<QAbstractButton *>(widget);
-    if(button != nullptr)
-      button->setIconSize(minSize * 0.8);
+    // Update menu bar, statusbar and toolbar =============================================
+    atools::gui::updateAllFonts(ui->menuBar, font, atools::gui::WidgetZoomHandler::getRegisteredWidgets());
+    atools::gui::updateAllFonts(ui->statusBar, font, atools::gui::WidgetZoomHandler::getRegisteredWidgets());
+    atools::gui::updateAllFonts(ui->toolBarMain, font, atools::gui::WidgetZoomHandler::getRegisteredWidgets());
 
-    widget->updateGeometry();
+    for(QDockWidget *dock : dockHandler->getDockWidgets())
+      atools::gui::updateAllFonts(dock, font, atools::gui::WidgetZoomHandler::getRegisteredWidgets());
+
+    // Update the map widget title bar
+    DockWidgetHandler::fontChangedWidget(ui->dockWidgetMap, font);
+
+    // Update tab widget height using a style sheet
+    for(QTabWidget *widget : std::as_const(tabbarsToResize))
+      atools::gui::changeTabBarSize(widget);
   }
+
+  // Set all image buttons height and width
+  atools::gui::setWidgetAndIconSize(widgetsToResize, NavApp::getMinButtonSize());
 }
 
 void MainWindow::styleChanged()
