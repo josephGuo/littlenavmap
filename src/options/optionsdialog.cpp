@@ -177,6 +177,9 @@ OptionsDialog::OptionsDialog(QMainWindow *parentWindow)
   ui->treeWidgetOptionsDisplayTextOptions->setItemDelegate(gridDelegate);
 
   // Add option pages with text, icon and tooltip ========================================
+  // The title has to match all text references in the program
+  // The id must match all "lnm://pagename" links and is also used to refer to the options help page like
+  // "https://www.littlenavmap.org/manuals/littlenavmap/release/3.0/en/OPTIONS.html#options-page-pagename"
   addPageListItem(QStringLiteral("startupandupdates"),
                   tr("Startup and Updates"),
                   tr("Select what should be reloaded on startup and change update settings."),
@@ -243,14 +246,24 @@ OptionsDialog::OptionsDialog(QMainWindow *parentWindow)
                   tr("Change label and other display options for map objects on the map and the elevation profile."),
                   QStringLiteral(":/littlenavmap/resources/icons/mapdisplaylabels.svg"));
 
+  addPageListItem(QStringLiteral("mapthemes"),
+                  tr("Map Themes"),
+                  tr("Change path to additional background map themes."),
+                  QStringLiteral(":/littlenavmap/resources/icons/map.svg"));
+
   addPageListItem(QStringLiteral("mapkeys"),
                   tr("Map Theme Keys"),
                   tr("Enter username, API keys or tokens for map services which require a login."),
                   QStringLiteral(":/littlenavmap/resources/icons/mapdisplaykeys.svg"));
 
+  addPageListItem(QStringLiteral("mapcache"),
+                  tr("Map Cache"),
+                  tr("Change map cache and the path for user airspaces."),
+                  QStringLiteral(":/littlenavmap/resources/icons/filesave.svg"));
+
   addPageListItem(QStringLiteral("maponline"),
                   tr("Map Online"),
-                  tr("Map display online center options."),
+                  tr("Map display online center and airspace options."),
                   QStringLiteral(":/littlenavmap/resources/icons/airspaceonline.svg"));
 
   addPageListItem(QStringLiteral("simulatoraircraft"),
@@ -282,11 +295,6 @@ OptionsDialog::OptionsDialog(QMainWindow *parentWindow)
                   tr("Elevation Data"),
                   tr("Install and select elevation data."),
                   QStringLiteral(":/littlenavmap/resources/icons/profiledock.svg"));
-
-  addPageListItem(QStringLiteral("cacheandfiles"),
-                  tr("Cache and Files"),
-                  tr("Change map cache and the path for user airspaces."),
-                  QStringLiteral(":/littlenavmap/resources/icons/filesave.svg"));
 
   addPageListItem(QStringLiteral("webserver"),
                   tr("Web Server"),
@@ -674,8 +682,9 @@ OptionsDialog::OptionsDialog(QMainWindow *parentWindow)
     ui->radioButtonOptionsStartupShowHome,
     ui->radioButtonOptionsStartupShowLast,
     ui->radioButtonOptionsStartupShowFlightplan,
-    ui->spinBoxOptionsCacheDiskSize,
-    ui->spinBoxOptionsCacheMemorySize,
+    ui->spinBoxOptionsCacheDiskMap,
+    ui->spinBoxOptionsCacheMemoryMap,
+    ui->spinBoxOptionsCacheMemoryProfile,
     ui->radioButtonCacheUseOffineElevation,
     ui->radioButtonCacheUseOnlineElevation,
     ui->lineEditCacheOfflineDataPath,
@@ -899,10 +908,14 @@ OptionsDialog::OptionsDialog(QMainWindow *parentWindow)
 
   // ===========================================================================
   // Cache
-  connect(ui->pushButtonOptionsCacheClearMemory, &QPushButton::clicked, this, &OptionsDialog::clearMemCachedClicked);
+  connect(ui->pushButtonOptionsCacheClearMemory, &QPushButton::clicked, this, &OptionsDialog::clearMemCacheMapClicked);
   connect(ui->pushButtonOptionsCacheShow, &QPushButton::clicked, this, &OptionsDialog::showDiskCacheClicked);
 
   connect(ui->checkBoxOptionsSimUpdatesConstant, &QCheckBox::toggled, this, &OptionsDialog::updateWhileFlyingWidgets);
+
+  // ===========================================================================
+  // Cache
+  connect(ui->pushButtonOptionsCacheClearProfile, &QPushButton::clicked, this, &OptionsDialog::clearMemCacheProfileClicked);
 
   // ===========================================================================
   // Map settings
@@ -2269,8 +2282,9 @@ void OptionsDialog::widgetsToOptionData()
   data.simUpdateBoxCenterLegZoom = ui->spinBoxOptionsSimCenterLegZoom->value();
   data.aircraftTrailMaxPoints = ui->spinBoxSimMaxTrailPoints->value();
 
-  data.cacheSizeDisk = ui->spinBoxOptionsCacheDiskSize->value();
-  data.cacheSizeMemory = ui->spinBoxOptionsCacheMemorySize->value();
+  data.cacheSizeDisk = ui->spinBoxOptionsCacheDiskMap->value();
+  data.cacheSizeMemoryMap = ui->spinBoxOptionsCacheMemoryMap->value();
+  data.cacheSizeMemoryProfile = ui->spinBoxOptionsCacheMemoryProfile->value();
   data.guiInfoTextSize = ui->spinBoxOptionsGuiInfoText->value();
   data.guiPerfReportTextSize = ui->spinBoxOptionsGuiAircraftPerf->value();
   data.guiRouteTableTextSize = ui->spinBoxOptionsGuiRouteText->value();
@@ -2606,8 +2620,9 @@ void OptionsDialog::optionDataToWidgets(const OptionData& data)
   ui->spinBoxOptionsSimUpdateBox->setValue(data.simUpdateBox);
   ui->spinBoxOptionsSimCenterLegZoom->setValue(data.simUpdateBoxCenterLegZoom);
   ui->spinBoxSimMaxTrailPoints->setValue(data.aircraftTrailMaxPoints);
-  ui->spinBoxOptionsCacheDiskSize->setValue(data.cacheSizeDisk);
-  ui->spinBoxOptionsCacheMemorySize->setValue(data.cacheSizeMemory);
+  ui->spinBoxOptionsCacheDiskMap->setValue(data.cacheSizeDisk);
+  ui->spinBoxOptionsCacheMemoryMap->setValue(data.cacheSizeMemoryMap);
+  ui->spinBoxOptionsCacheMemoryProfile->setValue(data.cacheSizeMemoryProfile);
   ui->spinBoxOptionsGuiInfoText->setValue(data.guiInfoTextSize);
   ui->spinBoxOptionsGuiAircraftPerf->setValue(data.guiPerfReportTextSize);
   ui->spinBoxOptionsGuiRouteText->setValue(data.guiRouteTableTextSize);
@@ -3093,11 +3108,19 @@ void OptionsDialog::updateNavOptions()
   ui->labelOptionsMapNavTouchscreenArea->setEnabled(ui->radioButtonOptionsMapNavTouchscreen->isChecked());
 }
 
-void OptionsDialog::clearMemCachedClicked()
+void OptionsDialog::clearMemCacheMapClicked()
 {
   qDebug() << Q_FUNC_INFO;
 
   NavApp::getMapWidgetGui()->clearVolatileTileCache();
+  NavApp::setStatusMessage(tr("Memory cache cleared."));
+}
+
+void OptionsDialog::clearMemCacheProfileClicked()
+{
+  qDebug() << Q_FUNC_INFO;
+
+  NavApp::getElevationProvider()->clearCache();
   NavApp::setStatusMessage(tr("Memory cache cleared."));
 }
 

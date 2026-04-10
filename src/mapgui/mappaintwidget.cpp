@@ -321,7 +321,7 @@ void MapPaintWidget::styleChanged()
 
 void MapPaintWidget::updateCacheSizes()
 {
-  quint64 volCacheKb = OptionData::instance().getCacheSizeMemoryMb() * 1000L;
+  quint64 volCacheKb = OptionData::instance().getCacheSizeMemoryMapMb() * 1000L;
   if(volCacheKb != volatileTileCacheLimit())
   {
     qDebug() << "Volatile cache to" << volCacheKb << "kb";
@@ -813,7 +813,7 @@ void MapPaintWidget::showPos(const atools::geo::Pos& pos, float distanceKm, bool
 
 void MapPaintWidget::showPosInternal(const atools::geo::Pos& pos, float distanceKm, bool doubleClick, bool allowAdjust)
 {
-#if DEBUG_INFORMATION
+#if DEBUG_INFORMATION_POS
   qDebug() << Q_FUNC_INFO << pos << distanceKm << doubleClick;
 #endif
 
