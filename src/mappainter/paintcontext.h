@@ -140,7 +140,8 @@ struct PaintContext
   float symbolSizeAirportWeather = 1.f;
   float symbolSizeWindBarbs = 1.f;
   float symbolSizeAircraftAi = 1.f;
-  float textSizeFlightplan = 1.f;
+  float symbolSizeRoute = 1.f;
+  float textSizeRoute = 1.f;
   float textSizeAircraftUser = 1.f;
   float symbolSizeAircraftUser = 1.f;
   float textSizeAirport = 1.f;
@@ -217,22 +218,7 @@ struct PaintContext
     return dispOptsRoute & opts;
   }
 
-  /* Calculate real symbol size */
-  int sz(float scale, int size) const
-  {
-    return static_cast<int>(std::round(scale * size * sizeAll));
-  }
-
-  int sz(float scale, float size) const
-  {
-    return static_cast<int>(std::round(scale * size * sizeAll));
-  }
-
-  int sz(float scale, double size) const
-  {
-    return static_cast<int>(std::round(scale * size * sizeAll));
-  }
-
+  /* Calculate real symbol sizes */
   float szF(float scale, int size) const
   {
     return scale * size * sizeAll;
@@ -273,10 +259,6 @@ struct PaintContext
     if(verboseDraw)
       renderTimesMs.clear();
   }
-
-  /* Does work only properly for short lines due to GC path.
-   Checks visibility by testing overlap with global viewport rect. */
-  bool visible(const atools::geo::Line& line) const;
 
   /*  Checks visibility by testing overlap with global viewport rect. */
   bool visible(const atools::geo::Rect& rect) const
