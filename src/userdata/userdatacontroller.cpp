@@ -19,6 +19,7 @@
 
 #include "atools.h"
 #include "common/constants.h"
+#include "common/elevationprovider.h"
 #include "common/mapresult.h"
 #include "common/maptypesfactory.h"
 #include "db/undoredoprogress.h"
@@ -385,8 +386,12 @@ void UserdataController::addUserpointFromMap(const map::MapResult& result, atool
   qDebug() << Q_FUNC_INFO;
 
   if(result.isEmpty(map::AIRPORT | map::VOR | map::NDB | map::WAYPOINT | map::USERPOINT))
+  {
+    if(NavApp::isGlobeOfflineProvider())
+      pos.setAltitude(NavApp::getElevationProvider()->getElevationFt(pos));
     // No prefill start empty dialog of with last added data
     addUserpointInternal(-1, pos, SqlRecord());
+  }
   else
   {
     // Prepare the dialog prefill data
@@ -455,14 +460,17 @@ void UserdataController::addUserpointFromMap(const map::MapResult& result, atool
       prefillRec.appendFieldAndValue("ident", up.ident)
       .appendFieldAndValue("name", up.name)
       .appendFieldAndValue("type", up.type)
-      .appendFieldAndValue("region", up.region)
+      .appendFieldAndValue("region", up.region);
       // .appendFieldAndValue("description", up.description)
       // .appendFieldAndValue("tags", up.tags)
-      ;
       pos = up.position;
     }
     else
       prefillRec.appendFieldAndValue("type", UserdataDialog::DEFAULT_TYPE);
+
+    if(NavApp::isGlobeOfflineProvider() && (atools::almostEqual(pos.getAltitude(), 0.f) ||
+                                            !(pos.getAltitude() < map::INVALID_ALTITUDE_VALUE)))
+      pos.setAltitude(NavApp::getElevationProvider()->getElevationFt(pos));
 
     prefillRec.appendFieldAndValue("altitude", pos.getAltitude());
 
@@ -680,11 +688,25 @@ void UserdataController::editUserpoints(const QList<int>& ids)
 
 void UserdataController::deleteUserpoints(const QList<int>& ids)
 {
-  qDebug() << Q_FUNC_INFO;
+  // Generate a truncated list of object names to delete
+  QStringList texts;
+  for(int id : ids)
+  {
+    texts.append(map::userpointShortText(getUserpointById(id), 5000));
+    if(texts.size() > 6)
+      break;
+  }
+
+  // Function relies on line feeds - join and split again to get a list
+  texts = atools::elideTextLinesShort(texts.join('\n'), 5, 20, true /* compressEmpty */, true /* ellipseLastLine */).split('\n');
+
   int result = dialog->showQuestionMsgBox(lnm::ACTIONS_SHOW_DELETE_USERPOINT,
-                                          tr("Delete %1 %2?\n\n"
-                                             "Note that you can undo this action in menu \"Userpoints\".")
-                                          .arg(ids.size()).arg(ids.size() == 1 ? tr("userpoint") : tr("userpoints")),
+                                          tr("<p>Delete %1 %2?</p>"
+                                               "<ul><li>%3</li></ul>"
+                                                 "<p>Note that you can undo this action in menu \"Userpoints\".</p>").
+                                          arg(ids.size()).
+                                          arg(ids.size() == 1 ? tr("userpoint") : tr("userpoints")).
+                                          arg(texts.join(tr("</li><li>"))),
                                           tr("Do not &show this dialog again."),
                                           QMessageBox::Yes | QMessageBox::No, QMessageBox::No, QMessageBox::Yes);
 
