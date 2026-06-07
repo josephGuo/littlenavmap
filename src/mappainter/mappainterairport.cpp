@@ -152,9 +152,6 @@ void MapPainterAirport::render()
   float airportSoftFontScale = context->mapLayerText->getAirportMinorFontScale();
 
   // Get layer dependent text flags ===================
-  textflags::TextFlags textFlags = context->airportTextFlags();
-  textflags::TextFlags textFlagsMinor = context->airportTextFlagsMinor();
-
   // Add airport symbols on top of diagrams ===========================
   for(int i = 0; i < visibleAirports.size(); i++)
   {
@@ -180,7 +177,8 @@ void MapPainterAirport::render()
         drawAirportSymbol(airport, x, y, minor ? symbolSizeMinor : symbolSize);
 
       context->szFont(context->textSizeAirport * (minor ? airportSoftFontScale : airportFontScale));
-      symbolPainter->drawAirportText(context->painter, airport, x, y, context->dispOptsAirport, minor ? textFlagsMinor : textFlags,
+      symbolPainter->drawAirportText(context->painter, airport, x, y, context->dispOptsAirport,
+                                     context->airportTextFlags(minor), context->airportTextAtts(minor),
                                      minor ? airportMinorSymbolSize : airportSymbolSize, context->mapLayer->isAirportDiagram(),
                                      context->mapLayerText->getMaxTextLengthAirport());
     }
@@ -683,7 +681,7 @@ void MapPainterAirport::drawAirportDiagram(const map::MapAirport& airport, const
           // Correct position based on position when cache entry was stored and new airport position
           const QPointF textPoint = points.getTaxiTextPoint() - (points.getAirportPoint() - airportPoint);
           symbolPainter->textBoxF(painter, {taxiname}, mapcolors::taxiwayNameColor, textPoint.x(), textPoint.y(),
-                                  textatt::CENTER, 255, mapcolors::taxiwayNameBackgroundColor);
+                                  text::CENTER, 255, mapcolors::taxiwayNameBackgroundColor);
         }
       }
     }
@@ -765,7 +763,7 @@ void MapPainterAirport::drawAirportDiagram(const map::MapAirport& airport, const
                     taxiNameCache->insert(TaxiNameKey(airport.id, taxiname), TaxiNameValue(airportPoint, textPoint));
 
                     symbolPainter->textBoxF(painter, {taxiname}, mapcolors::taxiwayNameColor, textPoint.x(), textPoint.y(),
-                                            textatt::CENTER, 255, mapcolors::taxiwayNameBackgroundColor);
+                                            text::CENTER, 255, mapcolors::taxiwayNameBackgroundColor);
                   }
                 }
               } // for(const QPointF& textPoint : QPolygonF({line.center(),
@@ -822,8 +820,8 @@ void MapPainterAirport::drawAirportDiagram(const map::MapAirport& airport, const
         w = scale->getPixelForFeet(radius, 90.f);
         h = scale->getPixelForFeet(radius, 0.f);
 
-        painter->setPen(QPen(mapcolors::colorOutlineForParkingType(parking.type), 2, Qt::SolidLine, Qt::FlatCap));
-        painter->setBrush(mapcolors::colorForParkingType(parking.type));
+        painter->setPen(QPen(mapcolors::colorOutlineForParkingType(parking.parkingType), 2, Qt::SolidLine, Qt::FlatCap));
+        painter->setBrush(mapcolors::colorForParkingType(parking.parkingType));
         painter->drawEllipse(QPointF(x, y), w, h);
 
         if(!fast)
@@ -901,7 +899,7 @@ void MapPainterAirport::drawAirportDiagram(const map::MapAirport& airport, const
           const MapParking& parking = parkings->at(i);
 
           // Use different text pen for better readability depending on background
-          painter->setPen(QPen(mapcolors::colorTextForParkingType(parking.type), 2, Qt::SolidLine, Qt::FlatCap));
+          painter->setPen(QPen(mapcolors::colorTextForParkingType(parking.parkingType), 2, Qt::SolidLine, Qt::FlatCap));
 
           // Get possibly truncated parking name but not for lowest layer
           QString text = parkingNameForSize(parking, mapLayerEffective->isAirportDiagramDetail3() ? 0.f : parkingSpot.width * 2.2f);
@@ -1183,15 +1181,15 @@ void MapPainterAirport::drawAirportSymbolOverview(const map::MapAirport& airport
   // Draw small symbol on top to find a clickspot
   symbolPainter->drawAirportSymbol(context->painter, airport, x, y,
                                    runwayDrawn ? 10.f : symsize, // Draw small icon only if runways are visible
-                                   false /* isAirportDiagram */, context->drawFast,
+                                   sf::FILL_WHITE, false /* isAirportDiagram */, context->drawFast,
                                    context->flags2.testFlag(opts2::MAP_AIRPORT_HIGHLIGHT_ADDON));
 }
 
 /* Draws the airport symbol. This is not drawn if the airport is drawn using runway overview */
 void MapPainterAirport::drawAirportSymbol(const map::MapAirport& airport, float x, float y, float size)
 {
-  symbolPainter->drawAirportSymbol(context->painter, airport, x, y, size, context->mapLayer->isAirportDiagramRunway(), context->drawFast,
-                                   context->flags2.testFlag(opts2::MAP_AIRPORT_HIGHLIGHT_ADDON));
+  symbolPainter->drawAirportSymbol(context->painter, airport, x, y, size, sf::FILL_WHITE, context->mapLayer->isAirportDiagramRunway(),
+                                   context->drawFast, context->flags2.testFlag(opts2::MAP_AIRPORT_HIGHLIGHT_ADDON));
 }
 
 void MapPainterAirport::runwayCoords(QList<RunwayPaintData>& runwayPaintData, const QList<MapRunway> *runways, bool overview)
