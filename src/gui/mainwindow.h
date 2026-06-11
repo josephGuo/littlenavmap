@@ -406,6 +406,9 @@ private:
   /* A button like airport, vor, ndb, etc. was pressed - update the map */
   void updateMapObjectsShown();
 
+  /* Does not update profile */
+  void updateMapObjectsShownMap();
+
   /* Reset drawing settings */
   void resetMapObjectsShown();
 
@@ -561,6 +564,7 @@ private:
   void toggleWebserver(bool checked);
   void webserverStatusChanged(bool running);
   void openWebserver();
+  void openWebserverQrCode();
   void saveStateNow();
   void optionsChanged(const optc::OptionChangeFlags& changeFlags);
   void optionsChangedInitial();

@@ -72,7 +72,7 @@ QWidget *DetailSliderAction::createWidget(QWidget *parent)
   slider->setSingleStep(1);
   slider->setTracking(true);
   slider->setValue(sliderValue);
-  slider->setToolTip(tr("Set detail level for map display (also \"Ctrl++\", \"Ctrl+-\" or \"Ctrl+Wheel\")."));
+  slider->setToolTip(tr("Set detail level for map display (also \"Ctrl++\", \"Ctrl+-\" or \"Ctrl+Mouse Wheel\")."));
 
   connect(slider, &QSlider::valueChanged, this, &DetailSliderAction::setSliderValue);
   connect(slider, &QSlider::valueChanged, this, &DetailSliderAction::valueChanged);
@@ -111,29 +111,6 @@ void DetailSliderAction::reset()
 }
 
 // =======================================================================================
-
-/*
- * Wrapper for label action.
- */
-class DetailLabelAction
-  : public QWidgetAction
-{
-public:
-  DetailLabelAction(QObject *parent) : QWidgetAction(parent)
-  {
-  }
-
-  void setText(const QString& textParam);
-
-protected:
-  /* Create a delete widget for more than one menu (tearout and normal) */
-  virtual QWidget *createWidget(QWidget *parent) override;
-  virtual void deleteWidget(QWidget *widget) override;
-
-  /* List of created/registered labels */
-  QList<QLabel *> labels;
-  QString text;
-};
 
 void DetailLabelAction::setText(const QString& textParam)
 {
