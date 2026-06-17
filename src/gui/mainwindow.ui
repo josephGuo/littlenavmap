@@ -129,15 +129,6 @@
     <property name="title">
      <string>&amp;Window</string>
     </property>
-    <widget class="QMenu" name="menuViewOverlays">
-     <property name="title">
-      <string>M&amp;ap Overlays</string>
-     </property>
-     <addaction name="actionMapOverlayOverview"/>
-     <addaction name="actionMapOverlayCompass"/>
-     <addaction name="actionMapOverlayScalebar"/>
-     <addaction name="actionMapOverlayNavigation"/>
-    </widget>
     <widget class="QMenu" name="menuWindowStyle">
      <property name="title">
       <string>&amp;Style</string>
@@ -183,8 +174,6 @@
      </property>
     </widget>
     <addaction name="menuShortcuts"/>
-    <addaction name="separator"/>
-    <addaction name="menuViewOverlays"/>
     <addaction name="separator"/>
     <addaction name="menuWindowStyle"/>
     <addaction name="separator"/>
@@ -282,6 +271,10 @@
     <addaction name="separator"/>
     <addaction name="menuHelpFilesAndFolders"/>
     <addaction name="separator"/>
+    <addaction name="actionMapShowGridConfig"/>
+    <addaction name="actionMapShowLabelConfig"/>
+    <addaction name="actionMapShowMapOverlayConfig"/>
+    <addaction name="separator"/>
     <addaction name="actionRouteDisplayOptions"/>
     <addaction name="actionInfoDisplayOptions"/>
     <addaction name="actionProfileDisplayOptions"/>
@@ -292,6 +285,16 @@
     <property name="title">
      <string>&amp;Map</string>
     </property>
+    <widget class="QMenu" name="menuViewOverlays">
+     <property name="title">
+      <string>M&amp;ap Overlays</string>
+     </property>
+     <addaction name="actionMapOverlayOverview"/>
+     <addaction name="actionMapOverlayCompass"/>
+     <addaction name="actionMapOverlayScalebar"/>
+     <addaction name="actionMapOverlayNavigation"/>
+     <addaction name="actionMapOverlayLabelHint"/>
+    </widget>
     <addaction name="actionMapShowHome"/>
     <addaction name="actionMapAircraftCenterNow"/>
     <addaction name="actionRouteCenter"/>
@@ -314,6 +317,8 @@
     <addaction name="separator"/>
     <addaction name="actionMapDetailsTextMore"/>
     <addaction name="actionMapDetailsTextLess"/>
+    <addaction name="separator"/>
+    <addaction name="menuViewOverlays"/>
    </widget>
    <widget class="QMenu" name="menuRoute">
     <property name="title">
@@ -492,7 +497,6 @@
     <addaction name="menuAircraft"/>
     <addaction name="separator"/>
     <addaction name="actionMapShowGrid"/>
-    <addaction name="actionMapShowGridConfig"/>
     <addaction name="separator"/>
     <addaction name="actionMapShowCities"/>
     <addaction name="actionMapShowMinimumAltitude"/>
@@ -591,9 +595,16 @@
     <property name="title">
      <string>M&amp;arkers</string>
     </property>
+    <widget class="QMenu" name="menuRecentMarkerFiles">
+     <property name="title">
+      <string>Recent Marker Files</string>
+     </property>
+     <addaction name="actionRecentMarkersClear"/>
+    </widget>
     <addaction name="actionMapLoadMarkers"/>
     <addaction name="actionMapAppendMarkers"/>
     <addaction name="actionMapSaveMarkers"/>
+    <addaction name="menuRecentMarkerFiles"/>
     <addaction name="separator"/>
     <addaction name="actionMapHideAllMarkers"/>
     <addaction name="separator"/>
@@ -768,10 +779,10 @@ Searches for partial text in all fields. Note that not all fields are available 
              <item>
               <widget class="QPushButton" name="pushButtonAirportSearchClearSelection">
                <property name="toolTip">
-                <string>Clear selection and remove any highlights on the map</string>
+                <string>Clear selection and delete highlights on the map</string>
                </property>
                <property name="statusTip">
-                <string>Clear selection and remove any highlights on the map</string>
+                <string>Clear selection and delete highlights on the map</string>
                </property>
                <property name="text">
                 <string/>
@@ -2109,10 +2120,10 @@ Not available for all simulators.</string>
              <item>
               <widget class="QPushButton" name="pushButtonNavSearchClearSelection">
                <property name="toolTip">
-                <string>Clear selection and remove any highlights on the map</string>
+                <string>Clear selection and delete highlights on the map</string>
                </property>
                <property name="statusTip">
-                <string>Clear selection and remove any highlights on the map</string>
+                <string>Clear selection and delete highlights on the map</string>
                </property>
                <property name="text">
                 <string/>
@@ -2799,10 +2810,10 @@ Hides all items not beginning with the specified search term.</string>
            <item>
             <widget class="QPushButton" name="pushButtonProcedureSearchClearSelection">
              <property name="toolTip">
-              <string>Clear selection and remove any highlights and preview on the map</string>
+              <string>Clear selection and delete highlights and preview on the map</string>
              </property>
              <property name="statusTip">
-              <string>Clear selection and remove any highlights and preview on the map</string>
+              <string>Clear selection and delete highlights and preview on the map</string>
              </property>
              <property name="text">
               <string/>
@@ -3034,10 +3045,10 @@ Hides all items not beginning with the specified search term.</string>
            <item>
             <widget class="QPushButton" name="pushButtonUserdataDel">
              <property name="toolTip">
-              <string>Remove one or more userpoints</string>
+              <string>Delete one or more userpoints</string>
              </property>
              <property name="statusTip">
-              <string>Remove one or more userpoints</string>
+              <string>Delete one or more userpoints</string>
              </property>
              <property name="text">
               <string/>
@@ -3075,10 +3086,10 @@ Hides all items not beginning with the specified search term.</string>
            <item>
             <widget class="QPushButton" name="pushButtonUserdataClearSelection">
              <property name="toolTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="statusTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="text">
               <string/>
@@ -3409,10 +3420,10 @@ Matches any visited airport.</string>
            <item>
             <widget class="QPushButton" name="pushButtonLogdataDel">
              <property name="toolTip">
-              <string>Remove one or more logbook entries</string>
+              <string>Delete one or more logbook entries</string>
              </property>
              <property name="statusTip">
-              <string>Remove one or more logbook entries</string>
+              <string>Delete one or more logbook entries</string>
              </property>
              <property name="text">
               <string/>
@@ -3450,10 +3461,10 @@ Matches any visited airport.</string>
            <item>
             <widget class="QPushButton" name="pushButtonLogdataClearSelection">
              <property name="toolTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="statusTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="text">
               <string/>
@@ -3991,10 +4002,10 @@ Matches any visited airport.</string>
            <item>
             <widget class="QPushButton" name="pushButtonOnlineClientSearchClearSelection">
              <property name="toolTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="statusTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="text">
               <string/>
@@ -4252,10 +4263,10 @@ Matches any visited airport.</string>
            <item>
             <widget class="QPushButton" name="pushButtonOnlineCenterSearchClearSelection">
              <property name="toolTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="statusTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="text">
               <string/>
@@ -4580,10 +4591,10 @@ Matches any visited airport.</string>
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="statusTip">
-              <string>Clear selection and remove any highlights on the map</string>
+              <string>Clear selection and delete highlights on the map</string>
              </property>
              <property name="text">
               <string/>
@@ -7606,13 +7617,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/rangeringsoff.svg</normaloff>:/littlenavmap/resources/icons/rangeringsoff.svg</iconset>
    </property>
    <property name="text">
-    <string>&amp;Remove all Range Rings</string>
+    <string>&amp;Delete all Range Rings</string>
    </property>
    <property name="toolTip">
-    <string>Remove all range rings from the map</string>
+    <string>Delete all range rings from the map</string>
    </property>
    <property name="statusTip">
-    <string>Remove all range rings from the map</string>
+    <string>Delete all range rings from the map</string>
    </property>
   </action>
   <action name="actionMapHideOneRangeRing">
@@ -7621,13 +7632,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/rangeringoff.svg</normaloff>:/littlenavmap/resources/icons/rangeringoff.svg</iconset>
    </property>
    <property name="text">
-    <string>&amp;Remove Range Ring</string>
+    <string>&amp;Delete Range Ring</string>
    </property>
    <property name="toolTip">
-    <string>Remove this range ring</string>
+    <string>Delete this range ring</string>
    </property>
    <property name="statusTip">
-    <string>Remove this range ring</string>
+    <string>Delete this range ring</string>
    </property>
   </action>
   <action name="actionMapHideDistanceMarker">
@@ -7636,13 +7647,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/distancemeasureoff.svg</normaloff>:/littlenavmap/resources/icons/distancemeasureoff.svg</iconset>
    </property>
    <property name="text">
-    <string>Remove Distance Measurement</string>
+    <string>Delete Distance Measurement</string>
    </property>
    <property name="toolTip">
-    <string>Remove this distance measurement</string>
+    <string>Delete this distance measurement</string>
    </property>
    <property name="statusTip">
-    <string>Remove this distance measurement</string>
+    <string>Delete this distance measurement</string>
    </property>
   </action>
   <action name="actionRouteSaveAs">
@@ -8109,10 +8120,10 @@ relation to shown airport</string>
     <string>&amp;Clear Menu</string>
    </property>
    <property name="toolTip">
-    <string>Remove all recent flight plans from menu</string>
+    <string>Delete all recent flight plans from the menu</string>
    </property>
    <property name="statusTip">
-    <string>Remove all recent flight plans from menu</string>
+    <string>Delete all recent flight plans from the menu</string>
    </property>
   </action>
   <action name="actionHelpUserManualLegend">
@@ -8172,10 +8183,10 @@ relation to shown airport</string>
     <string>Clear Menu</string>
    </property>
    <property name="toolTip">
-    <string>Remove all recent KML files from menu</string>
+    <string>Delete all recent KML files from the menu</string>
    </property>
    <property name="statusTip">
-    <string>Remove all recent KML files from menu</string>
+    <string>Delete all recent KML files from the menu</string>
    </property>
   </action>
   <action name="actionClearKml">
@@ -8187,10 +8198,10 @@ relation to shown airport</string>
     <string>&amp;Clear Google Earth KML from Map</string>
    </property>
    <property name="toolTip">
-    <string>Remove all Google Earth KML files from the map</string>
+    <string>Delete all Google Earth KML files from the map</string>
    </property>
    <property name="statusTip">
-    <string>Remove all Google Earth KML files from the map</string>
+    <string>Delete all Google Earth KML files from the map</string>
    </property>
   </action>
   <action name="actionRouteTableCopy">
@@ -8505,6 +8516,23 @@ relation to shown airport</string>
    </property>
    <property name="statusTip">
     <string>Show or hide the overview map floating overlay</string>
+   </property>
+  </action>
+  <action name="actionMapOverlayLabelHint">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Help</string>
+   </property>
+   <property name="toolTip">
+    <string>Show or hide hints for map object editing</string>
+   </property>
+   <property name="statusTip">
+    <string>Show or hide hints for map object editing</string>
    </property>
   </action>
   <action name="actionMapOverlayScalebar">
@@ -9235,10 +9263,10 @@ relation to shown airport</string>
     <string>&amp;Delete Userpoint(s)</string>
    </property>
    <property name="toolTip">
-    <string>Remove one or more userpoints</string>
+    <string>Delete one or more userpoints</string>
    </property>
    <property name="statusTip">
-    <string>Remove one or more userpoints</string>
+    <string>Delete one or more userpoints</string>
    </property>
    <property name="shortcut">
     <string>Del</string>
@@ -9616,13 +9644,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/trafficpatternoff.svg</normaloff>:/littlenavmap/resources/icons/trafficpatternoff.svg</iconset>
    </property>
    <property name="text">
-    <string>Remove &amp;Traffic Pattern</string>
+    <string>Delete &amp;Traffic Pattern</string>
    </property>
    <property name="toolTip">
-    <string>Remove this airport traffic pattern</string>
+    <string>Delete this airport traffic pattern</string>
    </property>
    <property name="statusTip">
-    <string>Remove this airport traffic pattern</string>
+    <string>Delete this airport traffic pattern</string>
    </property>
   </action>
   <action name="actionRouteInsert">
@@ -9761,7 +9789,7 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/clearselection.svg</normaloff>:/littlenavmap/resources/icons/clearselection.svg</iconset>
    </property>
    <property name="text">
-    <string>&amp;Remove all Highlights and Selections</string>
+    <string>&amp;Delete all Highlights and Selections</string>
    </property>
    <property name="toolTip">
     <string>Clear all highlights on the map</string>
@@ -9832,10 +9860,10 @@ relation to shown airport</string>
     <string>&amp;Clear Menu</string>
    </property>
    <property name="toolTip">
-    <string>Remove all recent aircraft performance files from menu</string>
+    <string>Delete all recent aircraft performance files from the menu</string>
    </property>
    <property name="statusTip">
-    <string>Remove all recent aircraft performance files from menu</string>
+    <string>Delete all recent aircraft performance files from the menu</string>
    </property>
   </action>
   <action name="actionAircraftPerformanceSave">
@@ -10418,10 +10446,10 @@ relation to shown airport</string>
     <string>&amp;Delete Logbook Entries</string>
    </property>
    <property name="toolTip">
-    <string>Remove one or more logbook entries</string>
+    <string>Delete one or more logbook entries</string>
    </property>
    <property name="statusTip">
-    <string>Remove one or more logbook entries</string>
+    <string>Delete one or more logbook entries</string>
    </property>
    <property name="shortcut">
     <string>Del</string>
@@ -10653,13 +10681,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/holdoff.svg</normaloff>:/littlenavmap/resources/icons/holdoff.svg</iconset>
    </property>
    <property name="text">
-    <string>&amp;Remove Holding</string>
+    <string>&amp;Delete Holding</string>
    </property>
    <property name="toolTip">
-    <string>Remove this holding</string>
+    <string>Delete this holding</string>
    </property>
    <property name="statusTip">
-    <string>Remove this holding</string>
+    <string>Delete this holding</string>
    </property>
   </action>
   <action name="actionLogdataSearchShowDistOptions">
@@ -11221,10 +11249,10 @@ relation to shown airport</string>
     <string>&amp;Clear Menu</string>
    </property>
    <property name="toolTip">
-    <string>Remove all recent window layouts from menu</string>
+    <string>Delete all recent window layouts from the menu</string>
    </property>
    <property name="statusTip">
-    <string>Remove all recent window layouts from menu</string>
+    <string>Delete all recent window layouts from the menu</string>
    </property>
   </action>
   <action name="actionWindowLayoutSaveAs">
@@ -11584,13 +11612,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/msaoff.svg</normaloff>:/littlenavmap/resources/icons/msaoff.svg</iconset>
    </property>
    <property name="text">
-    <string>&amp;Remove MSA Sector Diagram</string>
+    <string>&amp;Delete MSA Sector Diagram</string>
    </property>
    <property name="toolTip">
-    <string>Remove this MSA sector diagram</string>
+    <string>Delete this MSA sector diagram</string>
    </property>
    <property name="statusTip">
-    <string>Remove this holding</string>
+    <string>Delete this holding</string>
    </property>
   </action>
   <action name="actionRouteShowDepartureCustom">
@@ -12062,13 +12090,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/distancemeasureoff.svg</normaloff>:/littlenavmap/resources/icons/distancemeasureoff.svg</iconset>
    </property>
    <property name="text">
-    <string>Remove all &amp;Measurement Lines</string>
+    <string>Delete all &amp;Measurement Lines</string>
    </property>
    <property name="toolTip">
-    <string>Remove all measurement lines from the map</string>
+    <string>Delete all measurement lines from the map</string>
    </property>
    <property name="statusTip">
-    <string>Remove all measurement lines from the map</string>
+    <string>Delete all measurement lines from the map</string>
    </property>
   </action>
   <action name="actionMapHideAllHoldings">
@@ -12077,13 +12105,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/holdoff.svg</normaloff>:/littlenavmap/resources/icons/holdoff.svg</iconset>
    </property>
    <property name="text">
-    <string>Remove all &amp;Holdings</string>
+    <string>Delete all &amp;Holdings</string>
    </property>
    <property name="toolTip">
-    <string>Remove all holdings from the map</string>
+    <string>Delete all holdings from the map</string>
    </property>
    <property name="statusTip">
-    <string>Remove all holdings from the map</string>
+    <string>Delete all holdings from the map</string>
    </property>
   </action>
   <action name="actionMapHideAllPatterns">
@@ -12092,13 +12120,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/trafficpatternoff.svg</normaloff>:/littlenavmap/resources/icons/trafficpatternoff.svg</iconset>
    </property>
    <property name="text">
-    <string>Remove all &amp;Traffic Patterns</string>
+    <string>Delete all &amp;Traffic Patterns</string>
    </property>
    <property name="toolTip">
-    <string>Remove all traffic patterns from the map</string>
+    <string>Delete all traffic patterns from the map</string>
    </property>
    <property name="statusTip">
-    <string>Remove all traffic patterns from the map</string>
+    <string>Delete all traffic patterns from the map</string>
    </property>
   </action>
   <action name="actionMapHideAllMsa">
@@ -12107,13 +12135,13 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/msaoff.svg</normaloff>:/littlenavmap/resources/icons/msaoff.svg</iconset>
    </property>
    <property name="text">
-    <string>Remove all &amp;MSA Diagrams</string>
+    <string>Delete all &amp;MSA Diagrams</string>
    </property>
    <property name="toolTip">
-    <string>Remove all MSA diagrams from the  map</string>
+    <string>Delete all MSA diagrams from the  map</string>
    </property>
    <property name="statusTip">
-    <string>Remove all MSA diagrams from the  map</string>
+    <string>Delete all MSA diagrams from the  map</string>
    </property>
   </action>
   <action name="actionMapShowTurnPath">
@@ -12197,10 +12225,10 @@ relation to shown airport</string>
     <string>&amp;Cleanup Logbook Entries ...</string>
    </property>
    <property name="toolTip">
-    <string>Remove invalid logbook entries</string>
+    <string>Delete invalid logbook entries</string>
    </property>
    <property name="statusTip">
-    <string>Remove invalid logbook entries</string>
+    <string>Delete invalid logbook entries</string>
    </property>
   </action>
   <action name="actionHelpChangelog">
@@ -12279,7 +12307,7 @@ relation to shown airport</string>
      <normaloff>:/littlenavmap/resources/icons/mapgridconfig.svg</normaloff>:/littlenavmap/resources/icons/mapgridconfig.svg</iconset>
    </property>
    <property name="text">
-    <string>Show Map Grid &amp;Configuration ...</string>
+    <string>Show Map &amp;Grid Configuration ...</string>
    </property>
    <property name="toolTip">
     <string>Show map grid configuration</string>
@@ -12657,13 +12685,13 @@ from either the departure parking or the user aircraft while taxiing.</string>
      <normaloff>:/littlenavmap/resources/icons/routedeleteleg.svg</normaloff>:/littlenavmap/resources/icons/routedeleteleg.svg</iconset>
    </property>
    <property name="text">
-    <string>Remove &amp;all Map Markers</string>
+    <string>Delete &amp;all Map Markers</string>
    </property>
    <property name="toolTip">
-    <string>Remove all Map Markers from the map</string>
+    <string>Delete all Map Markers from the map</string>
    </property>
    <property name="statusTip">
-    <string>Remove all Map Markers from the map</string>
+    <string>Delete all Map Markers from the map</string>
    </property>
   </action>
   <action name="actionRouteSaveAsCsv">
@@ -12744,6 +12772,53 @@ from either the departure parking or the user aircraft while taxiing.</string>
   <action name="actionOpenWebserverQrCode">
    <property name="text">
     <string>Show Web Server Address as &amp;QR code</string>
+   </property>
+  </action>
+  <action name="actionMapShowLabelConfig">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../littlenavmap.qrc">
+     <normaloff>:/littlenavmap/resources/icons/mapgridconfig.svg</normaloff>:/littlenavmap/resources/icons/mapgridconfig.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Show Map Help &amp;Overlay Configuration ...</string>
+   </property>
+   <property name="toolTip">
+    <string>Show the configuration for the map help overlay</string>
+   </property>
+   <property name="statusTip">
+    <string>Show map grid</string>
+   </property>
+  </action>
+  <action name="actionMapShowMapOverlayConfig">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../littlenavmap.qrc">
+     <normaloff>:/littlenavmap/resources/icons/mapgridconfig.svg</normaloff>:/littlenavmap/resources/icons/mapgridconfig.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Show &amp;Overview Map Overlay Configuration ...</string>
+   </property>
+   <property name="toolTip">
+    <string>Show the configuration for the overview map overlay</string>
+   </property>
+   <property name="statusTip">
+    <string>Show map grid</string>
+   </property>
+  </action>
+  <action name="actionRecentMarkersClear">
+   <property name="text">
+    <string>&amp;Clear Menu</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete all recent marker files from the menu</string>
+   </property>
+   <property name="statusTip">
+    <string>Delete all recent flight plans from the menu</string>
    </property>
   </action>
  </widget>

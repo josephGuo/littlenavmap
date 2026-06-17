@@ -769,11 +769,13 @@ exists($$PWD/../little_navmap_keys) {
 
 ICON = resources/icons/littlenavmap.icns
 
-TRANSLATIONS = littlenavmap_fr.ts \
-               littlenavmap_it.ts \
-               littlenavmap_de.ts \
-               littlenavmap_pt_BR.ts \
-               littlenavmap_zh.ts
+TRANSLATIONS = translations/littlenavmap_fr.ts \
+               translations/littlenavmap_it.ts \
+               translations/littlenavmap_de.ts \
+               translations/littlenavmap_pt_BR.ts \
+               translations/littlenavmap_zh.ts
+
+TRANSLATION_LANGUAGES = fr it de zh zh_CN pt pt_BR
 
 # littlenavmap_nl.ts
 # littlenavmap_es.ts
@@ -791,7 +793,7 @@ OTHER_FILES += \
   $$files(simconnect/*, true) \
   $$files(etc/*, true) \
   .gitignore \
-  *.ts \
+  translations/*.ts \
   BUILD.txt \
   CHANGELOG.txt \
   LICENSE.txt \
@@ -810,6 +812,7 @@ unix:!macx {
     $$MARBLE_LIB_PATH/marble/plugins/libCachePlugin.so \
     $$MARBLE_LIB_PATH/marble/plugins/libAtmospherePlugin.so \
     $$MARBLE_LIB_PATH/marble/plugins/libCompassFloatItem.so \
+    $$MARBLE_LIB_PATH/marble/plugins/libLabelFloatItem.so \
     $$MARBLE_LIB_PATH/marble/plugins/libGraticulePlugin.so \
     $$MARBLE_LIB_PATH/marble/plugins/libKmlPlugin.so \
     $$MARBLE_LIB_PATH/marble/plugins/libPn2Plugin.so \
@@ -818,8 +821,9 @@ unix:!macx {
     $$MARBLE_LIB_PATH/marble/plugins/libOverviewMap.so \
     $$OUT_PWD/plugins &&
   copydata.commands += mkdir -p $$OUT_PWD/translations &&
-  copydata.commands += cp -avfu $$PWD/*.qm $$OUT_PWD/translations &&
-  copydata.commands += cp -avfu $$ATOOLS_INC_PATH/../*.qm $$OUT_PWD/translations &&
+  copydata.commands += cp -avfu $$PWD/translations/*.qm $$OUT_PWD/translations &&
+  copydata.commands += cp -avfu $$ATOOLS_INC_PATH/../translations/*.qm $$OUT_PWD/translations &&
+  copydata.commands += cp -avfu $$MARBLE_INC_PATH/../translations/*.qm $$OUT_PWD/translations &&
   copydata.commands += cp -avfu $$PWD/help $$OUT_PWD &&
   copydata.commands += cp -avfu $$PWD/web $$OUT_PWD &&
   copydata.commands += cp -avfu $$PWD/customize $$OUT_PWD &&
@@ -844,8 +848,9 @@ macx {
   copydata.commands += cp -vf $$PWD/resources/config/maplayers.xml $$OUT_PWD/littlenavmap.app/Contents/MacOS/customize &&
   copydata.commands += cp -Rv $$PWD/timezone $$OUT_PWD/littlenavmap.app/Contents/MacOS &&
   copydata.commands += cp -Rv $$PWD/marble/data $$OUT_PWD/littlenavmap.app/Contents/MacOS &&
-  copydata.commands += cp -vf $$PWD/*.qm $$OUT_PWD/littlenavmap.app/Contents/MacOS &&
-  copydata.commands += cp -vf $$ATOOLS_INC_PATH/../*.qm $$OUT_PWD/littlenavmap.app/Contents/MacOS
+  copydata.commands += cp -vf $$PWD/translations/*.qm $$OUT_PWD/littlenavmap.app/Contents/MacOS &&
+  copydata.commands += cp -vf $$ATOOLS_INC_PATH/../translations/*.qm $$OUT_PWD/littlenavmap.app/Contents/MacOS
+  copydata.commands += cp -vf $$MARBLE_INC_PATH/../translations/*.qm $$OUT_PWD/littlenavmap.app/Contents/MacOS
 }
 
 # =====================================================================
@@ -877,9 +882,14 @@ unix:!macx {
   deploy.commands += cp -Rvf $$OUT_PWD/customize $$DEPLOY_DIR &&
   deploy.commands += cp -Rvf $$OUT_PWD/timezone $$DEPLOY_DIR &&
   deploy.commands += cp -Rvf $$OUT_PWD/littlenavmap $$DEPLOY_DIR &&
-  deploy.commands += cp -vfa $$[QT_INSTALL_TRANSLATIONS]/qt_??.qm  $$DEPLOY_DIR/translations &&
-  deploy.commands += cp -vfa $$[QT_INSTALL_TRANSLATIONS]/qt_??_??.qm  $$DEPLOY_DIR/translations &&
-  deploy.commands += cp -vfa $$[QT_INSTALL_TRANSLATIONS]/qtbase*.qm  $$DEPLOY_DIR/translations &&
+  for(TL, TRANSLATION_LANGUAGES) {
+    exists($$[QT_INSTALL_TRANSLATIONS]/qt_$${TL}.qm) {
+      deploy.commands += cp -vfa $$[QT_INSTALL_TRANSLATIONS]/qt_$${TL}.qm  $$DEPLOY_DIR/translations &&
+    }
+    exists($$[QT_INSTALL_TRANSLATIONS]/qt_$${TL}.qm) {
+      deploy.commands += cp -vfa $$[QT_INSTALL_TRANSLATIONS]/qtbase_$${TL}.qm  $$DEPLOY_DIR/translations &&
+    }
+  } &&
   deploy.commands += cp -Rvf $$OUT_PWD/translations $$DEPLOY_DIR &&
   exists($$DATABASE_BASE) : deploy.commands += cp -Rvf $$DATABASE_BASE $$DEPLOY_DIR &&
   exists($$HELP_BASE) : deploy.commands += cp -Rvf $$HELP_BASE/* $$DEPLOY_DIR/help &&
@@ -949,6 +959,7 @@ macx {
     $$MARBLE_LIB_PATH/plugins/libCachePlugin.so \
     $$MARBLE_LIB_PATH/plugins/libAtmospherePlugin.so \
     $$MARBLE_LIB_PATH/plugins/libCompassFloatItem.so \
+    $$MARBLE_LIB_PATH/plugins/libLabelFloatItem.so \
     $$MARBLE_LIB_PATH/plugins/libGraticulePlugin.so \
     $$MARBLE_LIB_PATH/plugins/libKmlPlugin.so \
     $$MARBLE_LIB_PATH/plugins/libPn2Plugin.so \
@@ -959,6 +970,7 @@ macx {
   deploy.commands +=  $$INSTALL_MARBLE_DYLIB_CMD/libCachePlugin.so &&
   deploy.commands +=  $$INSTALL_MARBLE_DYLIB_CMD/libAtmospherePlugin.so &&
   deploy.commands +=  $$INSTALL_MARBLE_DYLIB_CMD/libCompassFloatItem.so &&
+  deploy.commands +=  $$INSTALL_MARBLE_DYLIB_CMD/libLabelFloatItem.so &&
   deploy.commands +=  $$INSTALL_MARBLE_DYLIB_CMD/libGraticulePlugin.so &&
   deploy.commands +=  $$INSTALL_MARBLE_DYLIB_CMD/libKmlPlugin.so &&
   deploy.commands +=  $$INSTALL_MARBLE_DYLIB_CMD/libPn2Plugin.so &&
@@ -968,9 +980,14 @@ macx {
   deploy.commands += $$[QT_INSTALL_BINS]/macdeployqt littlenavmap.app $$MACDEPLOY_FLAGS &&
   deploy.commands += cp -vf $$PWD/desktop/\"Little Navmap Portable macOS.command\" $$DEPLOY_DIR/\"Little Navmap Portable.command\" &&
   deploy.commands += cp -Rfv $$OUT_PWD/littlenavmap.app $$DEPLOY_APP &&
-  deploy.commands += cp -fv $$[QT_INSTALL_TRANSLATIONS]/qt_??.qm  $$DEPLOY_APP/Contents/MacOS &&
-  deploy.commands += cp -fv $$[QT_INSTALL_TRANSLATIONS]/qt_??_??.qm  $$DEPLOY_APP/Contents/MacOS &&
-  deploy.commands += cp -fv $$[QT_INSTALL_TRANSLATIONS]/qtbase*.qm  $$DEPLOY_APP/Contents/MacOS &&
+  for(TL, TRANSLATION_LANGUAGES) {
+    exists($$[QT_INSTALL_TRANSLATIONS]/qt_$${TL}.qm) {
+      deploy.commands += cp -vfa $$[QT_INSTALL_TRANSLATIONS]/qt_$${TL}.qm  $$DEPLOY_APP/Contents/MacOS &&
+    }
+    exists($$[QT_INSTALL_TRANSLATIONS]/qt_$${TL}.qm) {
+      deploy.commands += cp -vfa $$[QT_INSTALL_TRANSLATIONS]/qtbase_$${TL}.qm  $$DEPLOY_APP/Contents/MacOS &&
+    }
+  } &&
   deploy.commands += cp -fv $$PWD/CHANGELOG.txt $$DEPLOY_APP/Contents/MacOS &&
   deploy.commands += cp -fv $$PWD/build/mac/Info.plist $$ $$DEPLOY_APP/Contents &&
   deploy.commands += echo $$VERSION_NUMBER > $$DEPLOY_DIR/version-LittleNavmap.txt &&
@@ -1000,6 +1017,7 @@ win32 {
   deploy.commands += xcopy /F $$p($$MARBLE_LIB_PATH/../plugins/libCachePlugin$${DLL_SUFFIX}.dll) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/plugins) &&
   deploy.commands += xcopy /F $$p($$MARBLE_LIB_PATH/../plugins/libAtmospherePlugin$${DLL_SUFFIX}.dll) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/plugins) &&
   deploy.commands += xcopy /F $$p($$MARBLE_LIB_PATH/../plugins/libCompassFloatItem$${DLL_SUFFIX}.dll) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/plugins) &&
+  deploy.commands += xcopy /F $$p($$MARBLE_LIB_PATH/../plugins/libLabelFloatItem$${DLL_SUFFIX}.dll) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/plugins) &&
   deploy.commands += xcopy /F $$p($$MARBLE_LIB_PATH/../plugins/libGraticulePlugin$${DLL_SUFFIX}.dll) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/plugins) &&
   deploy.commands += xcopy /F $$p($$MARBLE_LIB_PATH/../plugins/libKmlPlugin$${DLL_SUFFIX}.dll) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/plugins) &&
   deploy.commands += xcopy /F $$p($$MARBLE_LIB_PATH/../plugins/libPn2Plugin$${DLL_SUFFIX}.dll) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/plugins) &&
@@ -1017,8 +1035,9 @@ win32 {
   deploy.commands += xcopy /F $$p($$PWD/LICENSE.txt) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME) &&
   deploy.commands += copy $$p($$PWD/desktop/Little Navmap Portable Win.cmd) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/Little Navmap Portable.cmd) &&
   deploy.commands += copy $$p($$PWD/desktop/win-qt.conf) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/qt.conf) &&
-  deploy.commands += xcopy /F $$p($$PWD/*.qm) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/translations) &&
-  deploy.commands += xcopy /F $$p($$ATOOLS_INC_PATH/../*.qm) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/translations) &&
+  deploy.commands += xcopy /F $$p($$PWD/translations/*.qm) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/translations) &&
+  deploy.commands += xcopy /F $$p($$ATOOLS_INC_PATH/../translations/*.qm) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/translations) &&
+  deploy.commands += xcopy /F $$p($$MARBLE_INC_PATH/../translations/*.qm) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/translations) &&
   exists($$DATABASE_BASE) : deploy.commands += xcopy /I /S /E /F /Y $$p($$DATABASE_BASE) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/little_navmap_db) &&
   exists($$HELP_BASE) : deploy.commands += xcopy /I /S /E /F /Y $$p($$HELP_BASE) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/help) &&
   deploy.commands += xcopy /I /S /E /F /Y $$p($$PWD/help/*) $$p($$DEPLOY_BASE/$$WIN_TARGET_NAME/help/) &&
