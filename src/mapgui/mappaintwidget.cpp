@@ -28,6 +28,7 @@
 #include "mapgui/mapscreenindex.h"
 #include "mapgui/mapthemehandler.h"
 #include "mappainter/mappaintlayer.h"
+#include "marble/HttpDownloadManager.h"
 #include "marble/ViewportParams.h"
 #include "options/optiondata.h"
 #include "query/airwayquery.h"
@@ -71,7 +72,24 @@ using atools::geo::Pos;
 MapPaintWidget::MapPaintWidget(QWidget *parent, Queries *queriesParam, bool visibleWidgetParam, bool webParam)
   : Marble::MarbleWidget(parent), visibleWidget(visibleWidgetParam), queries(queriesParam), web(webParam)
 {
-  verbose = atools::settings::Settings::instance().getAndStoreValue(lnm::OPTIONS_MAPWIDGET_DEBUG, false).toBool();
+  atools::settings::Settings& settings = atools::settings::Settings::instance();
+
+  verbose = settings.getAndStoreValue(lnm::OPTIONS_MAPWIDGET_DEBUG, false).toBool();
+
+  // Mozilla/5.0 (compatible; Marble/23.8.5; DesktopDevice; Browser; QNamNetworkPlugin; marble)
+  // userAgent = QStringLiteral("Mozilla/5.0 (compatible; Marble/%1; "
+  // "DesktopDevice; Browser; QNamNetworkPlugin; marble)").arg(MarbleGlobal::getVersionNumber2());
+
+  QString userAgent;
+  if(settings.contains(lnm::OPTIONS_MAPWIDGET_USER_AGENT))
+    userAgent = settings.valueStr(lnm::OPTIONS_MAPWIDGET_USER_AGENT);
+  else
+    userAgent = QStringLiteral("%1/%2 (+https://www.littlenavmap.org; contact: %3)").
+                arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion(),
+                    atools::gui::Application::getEmailAddresses().constFirst());
+
+  qDebug() << Q_FUNC_INFO << "User Agent Override web:" << isWeb() << "agent:" << userAgent;
+  model()->downloadManager()->setUserAgent(userAgent);
 
   aircraftTrail = new AircraftTrail();
   aircraftTrailLogbook = new AircraftTrail();
@@ -101,7 +119,7 @@ MapPaintWidget::MapPaintWidget(QWidget *parent, Queries *queriesParam, bool visi
 
   paintLayer->initQueries();
 
-  setShowTileId(atools::settings::Settings::instance().getAndStoreValue(lnm::OPTIONS_MAPWIDGET_TILEID_DEBUG, false).toBool());
+  setShowTileId(settings.getAndStoreValue(lnm::OPTIONS_MAPWIDGET_TILEID_DEBUG, false).toBool());
 }
 
 MapPaintWidget::~MapPaintWidget()
