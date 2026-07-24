@@ -66,7 +66,7 @@
      </widget>
      <widget class="QStackedWidget" name="stackedWidgetOptions">
       <property name="currentIndex">
-       <number>27</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="stackedWidgetOptionsStartup">
        <layout class="QVBoxLayout" name="verticalLayout_41">
@@ -81,7 +81,7 @@
              <x>0</x>
              <y>0</y>
              <width>525</width>
-             <height>499</height>
+             <height>459</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -414,7 +414,7 @@ This is the file on top of the list &quot;Recent Window Layouts&quot;.</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -438,7 +438,7 @@ This is the file on top of the list &quot;Recent Window Layouts&quot;.</string>
              <x>0</x>
              <y>0</y>
              <width>514</width>
-             <height>373</height>
+             <height>333</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -607,7 +607,7 @@ opening files, modifying the flight plan and other operations.</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -631,7 +631,7 @@ opening files, modifying the flight plan and other operations.</string>
              <x>0</x>
              <y>0</y>
              <width>419</width>
-             <height>910</height>
+             <height>870</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -1205,7 +1205,7 @@ This does not affect the map window which can be changed separately on the optio
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -1228,8 +1228,8 @@ This does not affect the map window which can be changed separately on the optio
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>569</width>
-             <height>445</height>
+             <width>586</width>
+             <height>531</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_36">
@@ -1241,7 +1241,7 @@ This does not affect the map window which can be changed separately on the optio
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -1267,90 +1267,29 @@ This does not affect the map window which can be changed separately on the optio
                <property name="horizontalSpacing">
                 <number>2</number>
                </property>
-               <item row="0" column="0" alignment="Qt::AlignVCenter">
-                <widget class="QLabel" name="labelOptionsUnitDistance">
+               <item row="9" column="0" colspan="3">
+                <widget class="QCheckBox" name="checkBoxOptionsUnitTrueCourse">
+                 <property name="toolTip">
+                  <string>Shows true course or heading values as small text besides magnetic course
+in information displays and tooltips .
+Only magnetic course is shown if both values are equal.
+Also affects labels at holds and traffic patterns.</string>
+                 </property>
                  <property name="text">
-                  <string>&amp;Distance:</string>
+                  <string>Show &amp;true course and heading besides magnetic course in information displays</string>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0" alignment="Qt::AlignVCenter">
+                <widget class="QLabel" name="labelOptionsUnitFuel">
+                 <property name="text">
+                  <string>&amp;Fuel and Weight:</string>
                  </property>
                  <property name="buddy">
-                  <cstring>comboBoxOptionsUnitDistance</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QComboBox" name="comboBoxOptionsUnitDistance">
-                 <item>
-                  <property name="text">
-                   <string>Nautical Miles (NM)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Kilometers (km)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Statute Miles (mi)</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="1" column="0" alignment="Qt::AlignVCenter">
-                <widget class="QLabel" name="labelOptionsUnitShortDistance">
-                 <property name="text">
-                  <string>&amp;Short Distance:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>comboBoxOptionsUnitShortDistance</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QComboBox" name="comboBoxOptionsUnitShortDistance">
-                 <item>
-                  <property name="text">
-                   <string>Feet (ft)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Meter (m)</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="2" column="0" alignment="Qt::AlignVCenter">
-                <widget class="QLabel" name="labelOptionsUnitAlt">
-                 <property name="text">
-                  <string>&amp;Altitude and elevation:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>comboBoxOptionsUnitAlt</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QComboBox" name="comboBoxOptionsUnitAlt">
-                 <item>
-                  <property name="text">
-                   <string>Feet (ft)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Meter (m)</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="3" column="0" alignment="Qt::AlignVCenter">
-                <widget class="QLabel" name="labelOptionsUnitSpeed">
-                 <property name="text">
-                  <string>&amp;Speed:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>comboBoxOptionsUnitSpeed</cstring>
+                  <cstring>comboBoxOptionsUnitFuelWeight</cstring>
                  </property>
                 </widget>
                </item>
@@ -1373,40 +1312,6 @@ This does not affect the map window which can be changed separately on the optio
                  </item>
                 </widget>
                </item>
-               <item row="4" column="0" alignment="Qt::AlignVCenter">
-                <widget class="QLabel" name="labelOptionsUnitVertSpeed">
-                 <property name="text">
-                  <string>&amp;Vertical Speed:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>comboBoxOptionsUnitVertSpeed</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QComboBox" name="comboBoxOptionsUnitVertSpeed">
-                 <item>
-                  <property name="text">
-                   <string>Feet per Minute (fpm)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Meter per Second (m/s)</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="5" column="0" alignment="Qt::AlignVCenter">
-                <widget class="QLabel" name="labelOptionsUnitFuel">
-                 <property name="text">
-                  <string>&amp;Fuel and Weight:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>comboBoxOptionsUnitFuelWeight</cstring>
-                 </property>
-                </widget>
-               </item>
                <item row="5" column="1">
                 <widget class="QComboBox" name="comboBoxOptionsUnitFuelWeight">
                  <item>
@@ -1421,28 +1326,88 @@ This does not affect the map window which can be changed separately on the optio
                  </item>
                 </widget>
                </item>
-               <item row="5" column="2">
-                <widget class="QCheckBox" name="checkBoxOptionsUnitFuelOther">
-                 <property name="toolTip">
-                  <string>Shows values for other fuel units (lbs/gal or kg/liter) as small text in
-information displays and tooltips besides selected units.</string>
-                 </property>
+               <item row="1" column="0" alignment="Qt::AlignVCenter">
+                <widget class="QLabel" name="labelOptionsUnitShortDistance">
                  <property name="text">
-                  <string>&amp;Show other fuel units too</string>
+                  <string>&amp;Short Distance:</string>
                  </property>
-                 <property name="checked">
-                  <bool>false</bool>
+                 <property name="buddy">
+                  <cstring>comboBoxOptionsUnitShortDistance</cstring>
                  </property>
                 </widget>
                </item>
-               <item row="6" column="0" alignment="Qt::AlignVCenter">
-                <widget class="QLabel" name="labelOptionsUnitCoords">
+               <item row="0" column="1">
+                <widget class="QComboBox" name="comboBoxOptionsUnitDistance">
+                 <item>
+                  <property name="text">
+                   <string>Nautical Miles (NM)</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Kilometers (km)</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Statute Miles (mi)</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="comboBoxOptionsUnitAlt">
+                 <item>
+                  <property name="text">
+                   <string>Feet (ft)</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Meter (m)</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="8" column="0" colspan="3">
+                <widget class="Line" name="line_18">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0" alignment="Qt::AlignVCenter">
+                <widget class="QLabel" name="labelOptionsUnitSpeed">
                  <property name="text">
-                  <string>&amp;Coordinates:</string>
+                  <string>&amp;Speed:</string>
                  </property>
                  <property name="buddy">
-                  <cstring>comboBoxOptionsUnitCoords</cstring>
+                  <cstring>comboBoxOptionsUnitSpeed</cstring>
                  </property>
+                </widget>
+               </item>
+               <item row="0" column="0" alignment="Qt::AlignVCenter">
+                <widget class="QLabel" name="labelOptionsUnitDistance">
+                 <property name="text">
+                  <string>&amp;Distance:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>comboBoxOptionsUnitDistance</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="comboBoxOptionsUnitShortDistance">
+                 <item>
+                  <property name="text">
+                   <string>Feet (ft)</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Meter (m)</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
                <item row="6" column="1">
@@ -1483,15 +1448,68 @@ also define the order when reading coordinates in the user interface if enabled.
                  </item>
                 </widget>
                </item>
-               <item row="7" column="0" colspan="3">
-                <widget class="QLabel" name="label_2">
-                 <property name="font">
-                  <font>
-                   <bold>false</bold>
-                  </font>
+               <item row="2" column="0" alignment="Qt::AlignVCenter">
+                <widget class="QLabel" name="labelOptionsUnitAlt">
+                 <property name="text">
+                  <string>&amp;Altitude and elevation:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>comboBoxOptionsUnitAlt</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QComboBox" name="comboBoxOptionsUnitVertSpeed">
+                 <item>
+                  <property name="text">
+                   <string>Feet per Minute (fpm)</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Meter per Second (m/s)</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="6" column="0" alignment="Qt::AlignVCenter">
+                <widget class="QLabel" name="labelOptionsUnitCoords">
+                 <property name="text">
+                  <string>&amp;Coordinates:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>comboBoxOptionsUnitCoords</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2">
+                <widget class="QCheckBox" name="checkBoxOptionsUnitFuelOther">
+                 <property name="toolTip">
+                  <string>Shows values for other fuel units (lbs/gal or kg/liter) as small text in
+information displays and tooltips besides selected units.</string>
                  </property>
                  <property name="text">
-                  <string>&lt;b&gt;A restart is recommended after changing units.&lt;/b&gt;</string>
+                  <string>&amp;Show other fuel units too</string>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0" alignment="Qt::AlignVCenter">
+                <widget class="QLabel" name="labelOptionsUnitVertSpeed">
+                 <property name="text">
+                  <string>&amp;Vertical Speed:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>comboBoxOptionsUnitVertSpeed</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0" colspan="3">
+                <widget class="QLabel" name="labelOptionsUnitsHint_2">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Note that any parameters like &amp;quot;Flight Plan&amp;quot; -&amp;gt; &amp;quot;Minimum Altitude Buffer&amp;quot;, &amp;quot;Map Navigation&amp;quot; -&amp;gt; &amp;quot;Zoom distances&amp;quot;, &amp;quot;Map Online&amp;quot; -&amp;gt; &amp;quot;Display sizes&amp;quot;, &amp;quot;Elevation Profile&amp;quot; -&amp;gt; &amp;quot;Buffer radius&amp;quot; and more are not changed when changing units. &lt;br/&gt;Adjust these manually to the new units.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;A restart is recommended after changing units.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1501,29 +1519,6 @@ also define the order when reading coordinates in the user interface if enabled.
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="0" colspan="3">
-                <widget class="Line" name="line_18">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="9" column="0" colspan="3">
-                <widget class="QCheckBox" name="checkBoxOptionsUnitTrueCourse">
-                 <property name="toolTip">
-                  <string>Shows true course or heading values as small text besides magnetic course
-in information displays and tooltips .
-Only magnetic course is shown if both values are equal.
-Also affects labels at holds and traffic patterns.</string>
-                 </property>
-                 <property name="text">
-                  <string>Show &amp;true course and heading besides magnetic course in information displays</string>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
@@ -1588,8 +1583,8 @@ aircraft progress, tooltips and information window.</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>566</width>
-             <height>401</height>
+             <width>480</width>
+             <height>380</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_59">
@@ -1598,7 +1593,10 @@ aircraft progress, tooltips and information window.</string>
               <property name="title">
                <string>Loading, Saving and Export</string>
               </property>
-              <layout class="QGridLayout" name="gridLayout_7">
+              <layout class="QVBoxLayout" name="verticalLayout_30">
+               <property name="spacing">
+                <number>2</number>
+               </property>
                <property name="leftMargin">
                 <number>2</number>
                </property>
@@ -1611,21 +1609,128 @@ aircraft progress, tooltips and information window.</string>
                <property name="bottomMargin">
                 <number>2</number>
                </property>
-               <property name="spacing">
-                <number>2</number>
-               </property>
-               <item row="6" column="1">
-                <widget class="QPushButton" name="pushButtonOptionsRouteFilenameLong">
+               <item>
+                <widget class="QCheckBox" name="checkBoxOptionsGuiCenterRoute">
                  <property name="toolTip">
-                  <string>Set flight plan file pattern to long name &quot;PLANTYPE DEPARTNAME (DEPARTIDENT) to DESTNAME (DESTIDENT)&quot;
-Example: &quot;IFR Frankfurt Am Main (EDDF) to Fiumicino (LIRF).lnmpln&quot;</string>
+                  <string>Centers a loaded flight plan or a loaded GPX trail.
+Does not apply to the flight plan loaded after startup.
+</string>
                  </property>
                  <property name="text">
-                  <string>&amp;Long Pattern</string>
+                  <string>Center &amp;flight plan or aircraft trail on map after loading</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
-               <item row="7" column="0" colspan="3">
+               <item>
+                <widget class="QCheckBox" name="checkBoxOptionsGuiAddDeparture">
+                 <property name="toolTip">
+                  <string>Add departure parking, runway or airport to an empty flight plan after connecting to simulator.</string>
+                 </property>
+                 <property name="text">
+                  <string>Add &amp;departure and start position to flight plan after connecting to simulator</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBoxOptionsGuiAvoidOverwrite">
+                 <property name="toolTip">
+                  <string>Check this option to avoid overwriting flight plans with a new departure or destination after changing these.
+The &quot;Save as&quot; dialog will show up instead of overwriting the current flight plan when you reverse the route for example.</string>
+                 </property>
+                 <property name="text">
+                  <string>&amp;Avoid overwriting Flight Plan with not matching departure and destination</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="line_19">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
+                  <string>&amp;Pattern for default flight plan file names used when saving LNMPLN. Hover the mouse above the input field for help:</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buddy">
+                  <cstring>lineEditOptionsRouteFilename</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEditOptionsRouteFilename">
+                 <property name="toolTip">
+                  <string extracomment="Do not translate the keywords">Applies to new filenames when saving LNMPLN flight plans.
+File patterns for other flight plan files are defined in the multiexport options dialog.
+The file suffix &quot;.lnmpln&quot; is appended automatically.
+
+PLANTYPE: IFR or VFR
+DEPARTIDENT: Departure airport ident
+DEPARTNAME: Departure airport name
+DESTIDENT: Destination airport ident
+DESTNAME: Destination airport name
+AIRCRAFTTYPE: Aircraft ICAO type designator
+CRUISEALT: Cruise altitude</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true">PLANTYPE DEPARTNAME (DEPARTIDENT) to DESTNAME (DESTIDENT)</string>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <widget class="QPushButton" name="pushButtonOptionsRouteFilenameShort">
+                   <property name="toolTip">
+                    <string>Set flight plan file pattern to short name &quot;DEPARTIDENT DESTIDENT&quot;.
+Example: &quot;EDDF LIRF.lnmpln&quot;</string>
+                   </property>
+                   <property name="text">
+                    <string>&amp;Short Pattern</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButtonOptionsRouteFilenameLong">
+                   <property name="toolTip">
+                    <string>Set flight plan file pattern to long name &quot;PLANTYPE DEPARTNAME (DEPARTIDENT) to DESTNAME (DESTIDENT)&quot;
+Example: &quot;IFR Frankfurt Am Main (EDDF) to Fiumicino (LIRF).lnmpln&quot;</string>
+                   </property>
+                   <property name="text">
+                    <string>&amp;Long Pattern</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButtonOptionsRouteFilenameFull">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set flight plan file pattern to full name &amp;quot;PLANTYPE DEPARTNAME (DEPARTIDENT) to DESTNAME (DESTIDENT) AIRCRAFTTYPE CRUISEALT&amp;quot;&lt;/p&gt;&lt;p&gt;Example: &amp;quot;IFR Frankfurt Am Main (EDDF) to Fiumicino (LIRF) BE58 10000.lnmpln&amp;quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="text">
+                    <string>&amp;Full Pattern</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
                 <widget class="QLabel" name="labelOptionsRouteFilenameExample">
                  <property name="text">
                   <string/>
@@ -1641,10 +1746,10 @@ Example: &quot;IFR Frankfurt Am Main (EDDF) to Fiumicino (LIRF).lnmpln&quot;</st
                  </property>
                 </widget>
                </item>
-               <item row="8" column="0" colspan="3">
+               <item>
                 <widget class="QLabel" name="labelOptionsFilePatternsHint">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/littlenavmap/resources/icons/bulb.svg&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;You can set more file patterns and export locations in the &amp;quot;Multiexport Flight Plan Options&amp;quot; in the main menu &amp;quot;File&amp;quot;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/littlenavmap/resources/icons/bulb.svg&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;You can set more file patterns and export locations by selecting the menu item &amp;quot;Multiexport Flight Plan Options&amp;quot; in the main menu &amp;quot;File&amp;quot;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1654,98 +1759,6 @@ Example: &quot;IFR Frankfurt Am Main (EDDF) to Fiumicino (LIRF).lnmpln&quot;</st
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0" colspan="3">
-                <widget class="QCheckBox" name="checkBoxOptionsGuiCenterRoute">
-                 <property name="toolTip">
-                  <string>Centers a loaded flight plan or a loaded GPX trail.
-Does not apply to the flight plan loaded after startup.
-</string>
-                 </property>
-                 <property name="text">
-                  <string>Center &amp;flight plan or aircraft trail on map after loading</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QPushButton" name="pushButtonOptionsRouteFilenameShort">
-                 <property name="toolTip">
-                  <string>Set flight plan file pattern to short name &quot;DEPARTIDENT DESTIDENT&quot;.
-Example: &quot;EDDF LIRF.lnmpln&quot;</string>
-                 </property>
-                 <property name="text">
-                  <string>&amp;Short Pattern</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0" colspan="3">
-                <widget class="Line" name="line_19">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0" colspan="3">
-                <widget class="QLineEdit" name="lineEditOptionsRouteFilename">
-                 <property name="toolTip">
-                  <string extracomment="Do not translate the keywords">Applies to new filenames when saving LNMPLN flight plans.
-File patterns for other flight plan files are defined in the multiexport options dialog.
-The file suffix &quot;.lnmpln&quot; is appended automatically.
-
-PLANTYPE: IFR or VFR
-DEPARTIDENT: Departure airport ident
-DEPARTNAME: Departure airport name
-DESTIDENT: Destination airport ident
-DESTNAME: Destination airport name
-CRUISEALT: Cruise altitude</string>
-                 </property>
-                 <property name="text">
-                  <string notr="true">PLANTYPE DEPARTNAME (DEPARTIDENT) to DESTNAME (DESTIDENT)</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0" colspan="3">
-                <widget class="QCheckBox" name="checkBoxOptionsGuiAvoidOverwrite">
-                 <property name="toolTip">
-                  <string>Check this option to avoid overwriting flight plans with a new departure or destination after changing these.
-The &quot;Save as&quot; dialog will show up instead of overwriting the current flight plan when you reverse the route for example.</string>
-                 </property>
-                 <property name="text">
-                  <string>&amp;Avoid overwriting Flight Plan with not matching departure and destination</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0" colspan="3">
-                <widget class="QLabel" name="label_9">
-                 <property name="text">
-                  <string>&amp;Pattern for default flight plan file names used when saving LNMPLN:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>lineEditOptionsRouteFilename</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QCheckBox" name="checkBoxOptionsGuiAddDeparture">
-                 <property name="toolTip">
-                  <string>Add departure parking, runway or airport to an empty flight plan after connecting to simulator.</string>
-                 </property>
-                 <property name="text">
-                  <string>Add &amp;departure and start position to flight plan after connecting to simulator</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -1797,7 +1810,7 @@ The &quot;Save as&quot; dialog will show up instead of overwriting the current f
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -1821,7 +1834,7 @@ The &quot;Save as&quot; dialog will show up instead of overwriting the current f
              <x>0</x>
              <y>0</y>
              <width>317</width>
-             <height>492</height>
+             <height>452</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -1889,7 +1902,7 @@ Restart the program after changing this option. You might also need to reset the
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -2238,7 +2251,7 @@ userpoints and logbook entries when clicking on the map</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -2520,7 +2533,7 @@ userpoints and logbook entries when hovering the cursor over the map</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -2544,7 +2557,7 @@ userpoints and logbook entries when hovering the cursor over the map</string>
              <x>0</x>
              <y>0</y>
              <width>510</width>
-             <height>526</height>
+             <height>486</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -2849,7 +2862,7 @@ Map views might be shown with a larger zoom distance than expected if this optio
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -2873,7 +2886,7 @@ Map views might be shown with a larger zoom distance than expected if this optio
              <x>0</x>
              <y>0</y>
              <width>433</width>
-             <height>644</height>
+             <height>333</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_65">
@@ -3025,7 +3038,7 @@ Note that some fonts, especially large fonts, can result in display errors on th
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>311</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -3400,7 +3413,7 @@ Note that some fonts, especially large fonts, can result in display errors on th
              <x>0</x>
              <y>0</y>
              <width>543</width>
-             <height>847</height>
+             <height>803</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_20">
@@ -4158,7 +4171,7 @@ to avoid a cluttered up airports</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -4182,7 +4195,7 @@ to avoid a cluttered up airports</string>
              <x>0</x>
              <y>0</y>
              <width>428</width>
-             <height>596</height>
+             <height>556</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_35">
@@ -4633,7 +4646,7 @@ Also used in the elevation profile.</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -4657,7 +4670,7 @@ Also used in the elevation profile.</string>
              <x>0</x>
              <y>0</y>
              <width>554</width>
-             <height>431</height>
+             <height>387</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_57">
@@ -4984,7 +4997,7 @@ Note that this does not affect the stored trail points.</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -5008,7 +5021,7 @@ Note that this does not affect the stored trail points.</string>
              <x>0</x>
              <y>0</y>
              <width>441</width>
-             <height>713</height>
+             <height>673</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_35">
@@ -5020,7 +5033,7 @@ Note that this does not affect the stored trail points.</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -5709,7 +5722,7 @@ if you hover over the elevation profile.</string>
              <x>0</x>
              <y>0</y>
              <width>437</width>
-             <height>250</height>
+             <height>273</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_62">
@@ -5770,7 +5783,7 @@ if you hover over the elevation profile.</string>
                <item row="3" column="0" colspan="3">
                 <widget class="QLabel" name="labelOptionsMapThemeDirRestartHint">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;A restart is required to detect new map themes after changing the path or after installing new map themes.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/littlenavmap/resources/icons/bulb.svg&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Map theme API keys for themes requiring an account can be entered on page &lt;/span&gt;&lt;a href=&quot;lnm://mapkeys&quot;&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline;&quot;&gt;Map Theme Keys&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;A restart is required to detect new map themes after changing the path or after installing new map themes.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/littlenavmap/resources/icons/bulb.svg&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Map theme API keys for themes requiring an account can be entered on page &lt;/span&gt;&lt;a href=&quot;lnm://mapkeys&quot;&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline; color:#0057ae;&quot;&gt;Map Theme Keys&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;lnm://openmapcache&quot;&gt;&lt;span style=&quot; font-weight:700; font-style:italic; text-decoration: underline; color:#0057ae;&quot;&gt;Click here&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; to open the tile cache directory in your file manager&lt;/span&gt;.&lt;span style=&quot; font-style:italic;&quot;&gt; If needed, simply delete the directory of the respective map theme from there.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -5804,7 +5817,7 @@ if you hover over the elevation profile.</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -5828,7 +5841,7 @@ if you hover over the elevation profile.</string>
              <x>0</x>
              <y>0</y>
              <width>319</width>
-             <height>731</height>
+             <height>811</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_63">
@@ -5919,7 +5932,7 @@ if you hover over the elevation profile.</string>
                <item>
                 <widget class="QLabel" name="labelOptionsMapThemesHint">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/littlenavmap/resources/icons/bulb.svg&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Change the path to additional map themes on page &lt;/span&gt;&lt;a href=&quot;lnm://mapthemes&quot;&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline;&quot;&gt;Map Themes&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;. Click the help button for installation instructions.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/littlenavmap/resources/icons/bulb.svg&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Change the path to additional map themes on page &lt;/span&gt;&lt;a href=&quot;lnm://mapthemes&quot;&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline; color:#0057ae;&quot;&gt;Map Themes&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;. Click the help button for installation instructions.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;lnm://openmapcache&quot;&gt;&lt;span style=&quot; font-weight:700; font-style:italic; text-decoration: underline; color:#0057ae;&quot;&gt;Click here&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; to open the tile cache directory in your file manager&lt;/span&gt;.&lt;span style=&quot; font-style:italic;&quot;&gt; If needed, simply delete the directory of the respective map theme from there.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -5954,7 +5967,7 @@ if you hover over the elevation profile.</string>
              <x>0</x>
              <y>0</y>
              <width>328</width>
-             <height>536</height>
+             <height>496</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_39">
@@ -6034,7 +6047,7 @@ airspace filename has to match the callsign of the online center.</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -6424,7 +6437,7 @@ airspace filename has to match the callsign of the online center.</string>
              <x>0</x>
              <y>0</y>
              <width>462</width>
-             <height>260</height>
+             <height>220</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_67">
@@ -6564,7 +6577,7 @@ The buffer radius defines the surrounding from where the maximum elevation is ca
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -6588,7 +6601,7 @@ The buffer radius defines the surrounding from where the maximum elevation is ca
              <x>0</x>
              <y>0</y>
              <width>436</width>
-             <height>319</height>
+             <height>279</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_60">
@@ -6707,7 +6720,7 @@ Download the file &lt;b&gt;&lt;i&gt;All Tiles in One .zip (all10g.zip)&lt;/i&gt;
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -6731,7 +6744,7 @@ Download the file &lt;b&gt;&lt;i&gt;All Tiles in One .zip (all10g.zip)&lt;/i&gt;
              <x>0</x>
              <y>0</y>
              <width>572</width>
-             <height>635</height>
+             <height>591</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -7154,7 +7167,7 @@ put the active leg back on top after the given timeout while flying.</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -7178,7 +7191,7 @@ put the active leg back on top after the given timeout while flying.</string>
              <x>0</x>
              <y>0</y>
              <width>318</width>
-             <height>242</height>
+             <height>202</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_26">
@@ -7314,7 +7327,7 @@ Note that this value does not affect flight plan calculation or saving of flight
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -7338,7 +7351,7 @@ Note that this value does not affect flight plan calculation or saving of flight
              <x>0</x>
              <y>0</y>
              <width>272</width>
-             <height>765</height>
+             <height>721</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_27">
@@ -7555,7 +7568,7 @@ Note that this value does not affect flight plan calculation or saving of flight
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>0</height>
                </size>
               </property>
              </spacer>
@@ -7579,7 +7592,7 @@ Note that this value does not affect flight plan calculation or saving of flight
              <x>0</x>
              <y>0</y>
              <width>245</width>
-             <height>766</height>
+             <height>758</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_28">
@@ -8939,8 +8952,8 @@ You have to reload the scenery library so that the changes take effect.</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>572</width>
-             <height>847</height>
+             <width>369</width>
+             <height>1139</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_75">
@@ -9398,7 +9411,7 @@ Entering a wrong value will cause errors when downloading weather reports.</stri
             <item>
              <widget class="QGroupBox" name="groupBox_52">
               <property name="title">
-               <string>User Agent for Map Tile Services</string>
+               <string>User Agent for Online Map Tile Services</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_59">
                <property name="leftMargin">
@@ -9416,12 +9429,10 @@ Entering a wrong value will cause errors when downloading weather reports.</stri
                <property name="horizontalSpacing">
                 <number>2</number>
                </property>
-               <item row="2" column="0" colspan="2">
+               <item row="3" column="0" colspan="2">
                 <widget class="QLabel" name="labelOptionsUserAgentHint">
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/littlenavmap/resources/icons/bulb.svg&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;The user agent is a code which is sent to a map web server for client identification using operating system information, program name and version. You can change it here for more privacy or if you see problems like blocked maps.&lt;br/&gt;
-Enter the word &quot;RANDOM&quot; to generate it randomly.&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;A restart is required after changing the user agent.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/littlenavmap/resources/icons/bulb.svg&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;The user agent is a code which is sent to a map web server for client identification. It includes operating system information, preferred languages, program name and version. You can change it here for more privacy or if you see problems like blocked maps.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;lnm://openmapcache&quot;&gt;&lt;span style=&quot; font-weight:700; font-style:italic; text-decoration: underline; color:#0057ae;&quot;&gt;Click here&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; to open the tile cache directory in your file manager&lt;/span&gt;.&lt;span style=&quot; font-style:italic;&quot;&gt; If needed, simply delete the directory of the respective map theme from there.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;A restart is required after changing the user agent.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -9434,7 +9445,7 @@ Enter the word &quot;RANDOM&quot; to generate it randomly.&lt;/span&gt;&lt;/p&gt
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
+               <item row="2" column="0">
                 <widget class="QLabel" name="labelOptionUserAgent">
                  <property name="text">
                   <string>Using default.</string>
@@ -9466,6 +9477,16 @@ Enter the word &quot;RANDOM&quot; to generate it randomly.&lt;/span&gt;&lt;/p&gt
                  </property>
                  <property name="clearButtonEnabled">
                   <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="checkBoxOptionUserAgentRandom">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Generate a new user agent on every startup.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="text">
+                  <string>&amp;Randomize user agent for maximum privacy.</string>
                  </property>
                 </widget>
                </item>
@@ -9564,8 +9585,6 @@ Enter the word &quot;RANDOM&quot; to generate it randomly.&lt;/span&gt;&lt;/p&gt
   <tabstop>checkBoxOptionsGuiAddDeparture</tabstop>
   <tabstop>checkBoxOptionsGuiAvoidOverwrite</tabstop>
   <tabstop>lineEditOptionsRouteFilename</tabstop>
-  <tabstop>pushButtonOptionsRouteFilenameShort</tabstop>
-  <tabstop>pushButtonOptionsRouteFilenameLong</tabstop>
   <tabstop>checkBoxOptionsGuiCenterKml</tabstop>
   <tabstop>scrollArea</tabstop>
   <tabstop>checkBoxOptionsMapUndock</tabstop>

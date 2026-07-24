@@ -59,9 +59,6 @@
 #include <QInputDialog>
 #include <QSvgRenderer>
 
-#include <marble/MarbleModel.h>
-#include <marble/MarbleDirs.h>
-
 // Show a warning if user decreases update rate for online services below this limit
 const int MIN_ONLINE_UPDATE_SECONDS = 120;
 
@@ -712,6 +709,7 @@ OptionsDialog::OptionsDialog(QMainWindow *parentWindow)
     ui->lineEditOptionsWeatherVatsimUrl,
     ui->lineEditOptionsWeatherIvaoUrl,
     ui->lineEditOptionsUserAgent,
+    ui->checkBoxOptionUserAgentRandom,
     ui->lineEditOptionsWeatherXplaneWind,
     ui->lineEditOptionsWeatherNoaaWindUrl,
     ui->tableWidgetOptionsDatabaseInclude,
@@ -973,6 +971,7 @@ OptionsDialog::OptionsDialog(QMainWindow *parentWindow)
   connect(ui->pushButtonOptionsCacheShow, &QPushButton::clicked, this, &OptionsDialog::showDiskCacheClicked);
 
   connect(ui->checkBoxOptionsSimUpdatesConstant, &QCheckBox::toggled, this, &OptionsDialog::updateWhileFlyingWidgets);
+  connect(ui->checkBoxOptionUserAgentRandom, &QCheckBox::toggled, this, &OptionsDialog::updateUserAgentLabel);
 
   // ===========================================================================
   // Cache
@@ -1002,6 +1001,7 @@ OptionsDialog::OptionsDialog(QMainWindow *parentWindow)
   connect(ui->lineEditOptionsRouteFilename, &QLineEdit::textEdited, this, &OptionsDialog::updateFlightplanExample);
   connect(ui->pushButtonOptionsRouteFilenameShort, &QPushButton::clicked, this, &OptionsDialog::flightplanPatternShortClicked);
   connect(ui->pushButtonOptionsRouteFilenameLong, &QPushButton::clicked, this, &OptionsDialog::flightplanPatternLongClicked);
+  connect(ui->pushButtonOptionsRouteFilenameFull, &QPushButton::clicked, this, &OptionsDialog::flightplanPatternFullClicked);
 
   connect(ui->radioButtonCacheUseOffineElevation, &QRadioButton::clicked, this, &OptionsDialog::updateCacheElevationStates);
   connect(ui->radioButtonCacheUseOnlineElevation, &QRadioButton::clicked, this, &OptionsDialog::updateCacheElevationStates);
@@ -1094,7 +1094,9 @@ OptionsDialog::~OptionsDialog()
 void OptionsDialog::hintLinkActivated(const QString& link)
 {
   qDebug() << Q_FUNC_INFO << link;
-  if(link.startsWith(QStringLiteral("lnm://")))
+  if(link.startsWith(QStringLiteral("lnm://openmapcache")))
+    MapThemeHandler::openMapCache(this);
+  else if(link.startsWith(QStringLiteral("lnm://")))
   {
     const QString id = link.mid(6);
     QListWidgetItem *item = listWidgetItemIndex.value(id, nullptr);
@@ -1420,7 +1422,8 @@ optc::OptionChangeFlags OptionsDialog::buildFlagsFromChange(const OptionData& sa
 
   changeFlags.setFlag(optc::OPTION_CHANGE_WEBSERVER, saved.webDocumentRoot != changed.webDocumentRoot);
 
-  changeFlags.setFlag(optc::OPTION_CHANGE_CONNECTION, saved.userAgent != changed.userAgent);
+  changeFlags.setFlag(optc::OPTION_CHANGE_CONNECTION, saved.userAgent != changed.userAgent ||
+                      saved.flags.testFlag(opts::RANDOM_USER_AGENT) != changed.flags.testFlag(opts::RANDOM_USER_AGENT));
 
   return changeFlags;
 }
@@ -1840,6 +1843,7 @@ void OptionsDialog::restoreState()
   addDatabaseTableItems(ui->tableWidgetOptionsDatabaseExclude, settings.valueStrList(lnm::OPTIONS_DIALOG_DB_EXCLUDE));
   addDatabaseTableItems(ui->tableWidgetOptionsDatabaseExcludeAddon, settings.valueStrList(lnm::OPTIONS_DIALOG_DB_ADDON_EXCLUDE));
 
+  // Used to get default colors
   OptionData defaultData;
   flightplanColor = settings.valueVar(lnm::OPTIONS_DIALOG_FLIGHTPLAN_COLOR,
                                       defaultData.flightplanColor).value<QColor>();
@@ -2504,6 +2508,7 @@ void OptionsDialog::widgetsToOptionData(OptionData& data)
   data.weatherVatsimUrl = ui->lineEditOptionsWeatherVatsimUrl->text().trimmed();
   data.weatherIvaoUrl = ui->lineEditOptionsWeatherIvaoUrl->text().trimmed();
   data.userAgent = ui->lineEditOptionsUserAgent->text().simplified();
+  data.flags.setFlag(opts::RANDOM_USER_AGENT, ui->checkBoxOptionUserAgentRandom->isChecked());
 
   toFlags(data.flags2, ui->checkBoxOptionsWebScale, opts2::MAP_WEB_USE_UI_SCALE);
 
@@ -2850,7 +2855,9 @@ void OptionsDialog::optionDataToWidgets(const OptionData& data)
   ui->lineEditOptionsWeatherNoaaStationsUrl->setText(data.weatherNoaaUrl.trimmed());
   ui->lineEditOptionsWeatherVatsimUrl->setText(data.weatherVatsimUrl.trimmed());
   ui->lineEditOptionsWeatherIvaoUrl->setText(data.weatherIvaoUrl.trimmed());
+
   ui->lineEditOptionsUserAgent->setText(data.userAgent.simplified());
+  ui->checkBoxOptionUserAgentRandom->setChecked(data.flags.testFlag(opts::RANDOM_USER_AGENT));
 
   addDatabaseTableItems(ui->tableWidgetOptionsDatabaseInclude, data.databaseInclude);
   addDatabaseTableItems(ui->tableWidgetOptionsDatabaseExclude, data.databaseExclude);
@@ -3124,14 +3131,15 @@ void OptionsDialog::offlineDataSelectClicked()
 
 void OptionsDialog::updateUserAgentLabel()
 {
+  ui->lineEditOptionsUserAgent->setDisabled(ui->checkBoxOptionUserAgentRandom->isChecked());
+
   // Mozilla/5.0 (compatible; Marble/23.8.5; DesktopDevice; Browser; QNamNetworkPlugin; marble)
   QString agent = ui->lineEditOptionsUserAgent->text().simplified();
 
-  if(agent == QStringLiteral("RANDOM"))
-    ui->labelOptionUserAgent->setText(tr("Using random user agent. This changes on every restart:\n\"%1\"").
-                                      arg(OptionData::instanceInternal().userAgentRandom));
+  if(ui->checkBoxOptionUserAgentRandom->isChecked())
+    ui->labelOptionUserAgent->setText(tr("Using random user agent. This changes on every restart."));
   else if(agent.isEmpty())
-    ui->labelOptionUserAgent->setText(tr("Using default user agent:\n\"%1\""). arg(OptionData::instanceInternal().userAgentDefault));
+    ui->labelOptionUserAgent->setText(tr("Using default user agent:\n\"%1\"").arg(OptionData::instanceInternal().userAgentDefault));
   else
     ui->labelOptionUserAgent->setText(tr("User agent:\n\"%1\"").arg(agent));
 }
@@ -3419,8 +3427,7 @@ void OptionsDialog::clearMemCacheProfileClicked()
 /* Opens the disk cache in explorer, finder, whatever */
 void OptionsDialog::showDiskCacheClicked()
 {
-  atools::gui::DesktopServices::openUrl(this, QUrl::fromLocalFile(Marble::MarbleDirs::localPath() % atools::SEP % QStringLiteral("maps") %
-                                                                  atools::SEP % QStringLiteral("earth")).toString());
+  MapThemeHandler::openMapCache(this);
 }
 
 void OptionsDialog::addPageListItem(const QString& id, const QString& text, const QString& tooltip, const QString& iconPath)
@@ -3628,6 +3635,12 @@ void OptionsDialog::flightplanPatternShortClicked()
 void OptionsDialog::flightplanPatternLongClicked()
 {
   ui->lineEditOptionsRouteFilename->setText(atools::fs::pln::pattern::LONG);
+  updateFlightplanExample();
+}
+
+void OptionsDialog::flightplanPatternFullClicked()
+{
+  ui->lineEditOptionsRouteFilename->setText(atools::fs::pln::pattern::FULL);
   updateFlightplanExample();
 }
 
@@ -3843,8 +3856,7 @@ void OptionsDialog::mapboxUserMapClicked()
        "You can find the Token on your Mapbox Account page.</p>"
        "<p><a href=\"https://account.mapbox.com/\"><b>Click here to open the Mapbox Account page in your browser</b></a></p>");
 
-  QUrl cacheUrl = QUrl::fromLocalFile(atools::cleanPath(Marble::MarbleDirs::localPath() % atools::SEP % "maps" % atools::SEP %
-                                                        "earth" % atools::SEP % "mapboxuser"));
+  QUrl cacheUrl = QUrl::fromLocalFile(MapThemeHandler::getDiskCache() % atools::SEP % "mapboxuser");
 
   QString label3 =
     tr("<p><b>You have to clear the map cache manually after updating or changing your Mapbox style.</b></p>"
