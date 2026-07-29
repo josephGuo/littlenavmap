@@ -307,6 +307,7 @@ SOURCES += \
   src/common/mapcolors.cpp \
   src/common/mapflags.cpp \
   src/common/mapflagstext.cpp \
+  src/common/mapinvalid.cpp \
   src/common/mapmarkers.cpp \
   src/common/mapmarkertypes.cpp \
   src/common/mapresult.cpp \
@@ -526,6 +527,7 @@ HEADERS  += \
   src/common/mapcolors.h \
   src/common/mapflags.h \
   src/common/mapflagstext.h \
+  src/common/mapinvalid.h \
   src/common/mapmarkers.h \
   src/common/mapmarkertypes.h \
   src/common/mapresult.h \
@@ -765,10 +767,6 @@ RESOURCES += littlenavmap.qrc
 # Add API key resource only if it exists
 exists($$PWD/../little_navmap_keys) {
   RESOURCES += keys.qrc
-}
-
-exists($$PWD/../little_navmap_ua) {
-RESOURCES += ua.qrc
 }
 
 ICON = resources/icons/littlenavmap.icns
